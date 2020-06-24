@@ -19,12 +19,12 @@ function Login() {
         </h3>
         </container>
         <container>
-        <Link to='/teacher'>
-          <Button variant="primary">I'm a Teacher</Button>{' '}
-        </Link>
-        <Link to='/student'>
-          <Button variant="info">I'm a Student</Button>{' '}
-        </Link>
+          <Link to='/teacher'>
+            <Button variant="primary">I'm a Teacher</Button>{' '}
+          </Link>
+          <Link to='/student'>
+            <Button variant="info">I'm a Student</Button>{' '}
+          </Link>
         </container>
       </header>
     </div>
