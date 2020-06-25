@@ -19,7 +19,6 @@ public class LessonReader {
         String fullText = "";
         try {
             fullText = Files.readString(incomingFile.toPath());
-            System.out.println(fullText);
         } catch (IOException e) {
             e.printStackTrace();
         }

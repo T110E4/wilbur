@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
 import '../resources/css/LessonCreator.css';
@@ -9,8 +8,8 @@ class LessonCreator extends React.Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      name: '',
-      difficulty: 'medium',
+      lessonName: 'test',
+      lessonDifficulty: 'MEDIUM',
       passages: [{ key: 0, passageText: 'Enter your passage here!' }]
     };
 
@@ -29,13 +28,38 @@ class LessonCreator extends React.Component {
     });
   }
 
+  save_lesson() {
+    fetch("http://localhost:8080/add-lesson", {
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "accept": "application/json"
+    },
+    "body": JSON.stringify({
+      lessonName: this.state.lessonName,
+      lessonDifficulty: this.state.lessonDifficulty,
+      passages: this.state.passages
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
   handleSubmit(event) {
+    //alert('Lesson Submitted: ' + this.state.lessonName);
+    this.save_lesson();
+    event.preventDefault();
   }
 
   handlePassageChange = idx => evt => {
     const newPassage = this.state.passages.map((passage, sidx) => {
       if (idx !== sidx) return passage;
-      return { ...passage, name: evt.target.value };
+      return { ...passage, passageText: evt.target.value };
     });
 
     this.setState({ passages: newPassage });
@@ -52,12 +76,18 @@ class LessonCreator extends React.Component {
       <Form onSubmit={this.handleSubmit} className="App-header">
         <div>
           <Form.Label>
+            <div>
+              <label>
+                Lesson Name:
+                <input type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
+              </label>
+            </div>
             Lesson Difficulty:
-            <select name="difficulty" value={this.state.difficulty} onChange={this.handleChange}>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-              <option value="challenge">Challenging</option>
+            <select name="difficulty" value={this.state.lessonDifficulty} onChange={this.handleChange}>
+              <option value="EASY">Easy</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HARD">Hard</option>
+              <option value="CHALLENGE">Challenging</option>
             </select>
           </Form.Label>
         </div>

@@ -1,29 +1,35 @@
 package com.angelo.wilburspring.models;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-import com.angelo.wilburspring.lessons.Difficulty;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A lesson is composed of passages which are collections of text that are to be
  * read by the student
  */
-public class Passage {
+@Entity
+public class Passage implements Serializable {
 
-    public UUID passageId;
+    //TODO: Generate better generator
+    private static final long serialVersionUID = -7133548841955189058L;
+    @JsonIgnore
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int passageId;
+    public Integer key;
     public String passageText;
-    public Difficulty passageDifficulty;
 
-    public UUID getPassageId() {
-        return this.passageId;
+    public Integer getPassageKey() {
+        return this.key;
     }
 
     public String getPassageText() {
         return this.passageText;
     }
-    
-    public Difficulty getPassageDifficulty() {
-        return this.passageDifficulty;
-    }
-
 }
