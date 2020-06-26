@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 import '../resources/css/LessonCreator.css';
 
@@ -28,31 +33,31 @@ class LessonCreator extends React.Component {
     });
   }
 
-  save_lesson() {
+  saveLesson() {
     fetch("http://localhost:8080/add-lesson", {
-    "method": "POST",
-    "headers": {
-      "content-type": "application/json",
-      "accept": "application/json"
-    },
-    "body": JSON.stringify({
-      lessonName: this.state.lessonName,
-      lessonDifficulty: this.state.lessonDifficulty,
-      passages: this.state.passages
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "accept": "application/json"
+      },
+      "body": JSON.stringify({
+        lessonName: this.state.lessonName,
+        lessonSummary: this.state.lessonSummary,
+        lessonDifficulty: this.state.lessonDifficulty,
+        passages: this.state.passages
       })
     })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response)
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleSubmit(event) {
-    //alert('Lesson Submitted: ' + this.state.lessonName);
-    this.save_lesson();
+    this.saveLesson();
     event.preventDefault();
   }
 
@@ -73,41 +78,55 @@ class LessonCreator extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit} className="App-header">
-        <div>
-          <Form.Label>
-            <div>
-              <label>
-                Lesson Name:
-                <input type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
-              </label>
-            </div>
-            Lesson Difficulty:
-            <select name="difficulty" value={this.state.lessonDifficulty} onChange={this.handleChange}>
-              <option value="EASY">Easy</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="HARD">Hard</option>
-              <option value="CHALLENGE">Challenging</option>
-            </select>
-          </Form.Label>
-        </div>
+      <Container>
+        <Form onSubmit={this.handleSubmit} className="App-header">
+          <Row>
+            <Col><Form.Label>Lesson Name:</Form.Label></Col>
+            <Col>
+              <input name="lessonName" type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
+            </Col>
+          </Row>
+          <Row>
+            <Col><Form.Label>Lesson Summary:</Form.Label></Col>
+            <Col>
+              <textarea name="lessonSummary" type="text" placeholder="Enter a Lesson Summary" onChange={this.handleChange} />
+            </Col>
+          </Row>
+          <Row>
+            <Col><Form.Label>Difficulty:</Form.Label></Col>
+            <Col>
+              <select name="difficulty" value={this.state.lessonDifficulty} onChange={this.handleChange}>
+                <option value="EASY">Easy</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HARD">Hard</option>
+                <option value="CHALLENGE">Challenging</option>
+              </select>
+            </Col>
+          </Row>
 
-        {this.state.passages.map((passage, idx) => (
-          <div className="passage" key={idx}>
-            <textarea
-              placeholder={`Passage #${idx + 1} text. Key ${passage.key}`}
-              onChange={this.handlePassageChange(idx)}
-            />
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={this.handleAddPassage}
-          className="small"
-        >Add Passage</button>
-
-        <input variant="primary" type="submit" value="Submit" />
-      </Form>
+          {this.state.passages.map((passage, idx) => (
+            <Row>
+              <Col><Form.Label>{`Passage #${idx + 1}:`}</Form.Label></Col>
+              <Col>
+                <div className="passage" key={idx}>
+                  <textarea
+                    placeholder={`Passage #${idx + 1} text. Key ${passage.key}`}
+                    onChange={this.handlePassageChange(idx)}
+                  />
+                </div>
+              </Col>
+            </Row>
+          ))}
+          <Row>
+            <Col>
+              <Button onClick={this.handleAddPassage} variant="primary">Add Passage</Button>
+            </Col>
+          </Row>
+          <Row>
+            <Button onClick="Submit" type="submit" variant="danger">Submit</Button>
+          </Row>
+        </Form>
+      </Container>
     );
   }
 

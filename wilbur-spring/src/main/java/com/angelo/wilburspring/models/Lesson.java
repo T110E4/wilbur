@@ -1,9 +1,9 @@
 package com.angelo.wilburspring.models;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +23,12 @@ public class Lesson {
     private int lessonId;
 
     private String lessonName;
+    
+    @Column(columnDefinition="text", length=10485760)
+    private String lessonSummary;
+
     private Difficulty lessonDifficulty;
+
     @OneToMany(targetEntity = Passage.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Passage> passages;
 
@@ -34,14 +39,19 @@ public class Lesson {
         this.lessonDifficulty = lessonDifficulty;
     }
 
-    public Lesson(String lessonName, Difficulty lessonDifficulty, List<Passage> passages) {
+    public Lesson(String lessonName, String lessonSummary, Difficulty lessonDifficulty, List<Passage> passages) {
         this.lessonName = lessonName;
+        this.lessonSummary = lessonSummary;
         this.lessonDifficulty = lessonDifficulty;
         this.passages = passages;
     }
 
     public String getLessonName() {
         return this.lessonName;
+    }
+
+    public String getLessonSummary() {
+        return this.lessonSummary;
     }
 
     public Difficulty getLessonDifficulty() {

@@ -2,6 +2,7 @@ package com.angelo.wilburspring.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,11 +19,14 @@ public class Passage implements Serializable {
 
     //TODO: Generate better generator
     private static final long serialVersionUID = -7133548841955189058L;
+
     @JsonIgnore
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int passageId;
     public Integer key;
+
+    @Column(columnDefinition="text", length=10485760)
     public String passageText;
 
     public Integer getPassageKey() {

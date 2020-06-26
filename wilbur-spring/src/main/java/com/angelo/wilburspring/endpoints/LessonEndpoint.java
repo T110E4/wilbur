@@ -1,7 +1,7 @@
 package com.angelo.wilburspring.endpoints;
 
 import java.io.File;
-import java.nio.file.Files;
+import java.util.List;
 
 import com.angelo.wilburspring.database.LessonRepository;
 import com.angelo.wilburspring.lessons.LessonReader;
@@ -9,7 +9,6 @@ import com.angelo.wilburspring.models.Lesson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,10 +31,17 @@ public class LessonEndpoint {
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/add-lesson", method=RequestMethod.POST)
     public Lesson addLesson(@RequestBody Lesson lesson) {
-        Lesson newLesson = new Lesson(lesson.getLessonName(), lesson.getLessonDifficulty(), lesson.getPassages());
+        Lesson newLesson = new Lesson(lesson.getLessonName(), lesson.getLessonSummary(), lesson.getLessonDifficulty(), lesson.getPassages());
         lessonRepository.save(newLesson);
         return newLesson;
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/get-lessons", method = RequestMethod.GET)
+    public List<Lesson> getLessons() {
+        List<Lesson> lessons = lessonRepository.findAll();
+        return lessons;
+    } 
     
     
     
