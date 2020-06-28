@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
+import { Link } from 'react-router-dom';
+
+import './StudentLessons.css';
+
 /**
  * This component manages the student lesson list
  */
@@ -28,7 +32,6 @@ class StudentLessons extends React.Component {
             });
     };
 
-
     render() {
         if (!this.state) {
             return <div>Loading Lesson List...</div>
@@ -38,12 +41,10 @@ class StudentLessons extends React.Component {
                 {this.state.retrievedLessons.map(lesson => (
                     <Jumbotron>
                         <h1>{lesson.lessonName}</h1>
-                        <p>
-                            {lesson.lessonSummary}
-                        </p>
-                        <p>
+                        <p>{lesson.lessonSummary}</p>
+                        <Link to={{pathname: `/take-lesson/${lesson.id}` }}>
                             <Button variant="primary">Take Lesson</Button>
-                        </p>
+                        </Link>
                     </Jumbotron>
                 ))}
             </div>

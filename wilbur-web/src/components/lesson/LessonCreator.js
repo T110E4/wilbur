@@ -4,9 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
 
-import '../resources/css/LessonCreator.css';
+import './LessonCreator.css';
 
 class LessonCreator extends React.Component {
 
@@ -95,11 +94,11 @@ class LessonCreator extends React.Component {
           <Row>
             <Col><Form.Label>Difficulty:</Form.Label></Col>
             <Col>
-              <select name="difficulty" value={this.state.lessonDifficulty} onChange={this.handleChange}>
-                <option value="EASY">Easy</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HARD">Hard</option>
-                <option value="CHALLENGE">Challenging</option>
+              <select name="difficulty" value={this.state.lessonDifficulty} onChange={this.handleChange} >
+                <option value='EASY'>Easy</option>
+                <option value='MEDIUM'>Medium</option>
+                <option value='HARD'>Hard</option>
+                <option value='CHALLENGE'>Challenging</option>
               </select>
             </Col>
           </Row>
@@ -123,7 +122,7 @@ class LessonCreator extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Button onClick="Submit" type="submit" variant="danger">Submit</Button>
+            <Button onClick="Submit" type="submit" variant="danger">Save Lesson</Button>
           </Row>
         </Form>
       </Container>

@@ -1,6 +1,7 @@
 package com.angelo.wilburspring.models;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,15 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.angelo.wilburspring.lessons.Difficulty;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Lesson {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int lessonId;
+    @Column(name="id", unique=true, nullable=false)
+    private long id;
+
+    @Column(name="lesson_id", unique=true, nullable=false)
+    private UUID lessonId;
 
     private String lessonName;
     
@@ -29,21 +32,36 @@ public class Lesson {
 
     private Difficulty lessonDifficulty;
 
+    /**
+     * The passages associated with this lesson
+     */
     @OneToMany(targetEntity = Passage.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Passage> passages;
 
-    private Lesson() {}
+    private Lesson() {
+        this.lessonId = UUID.randomUUID();
+    }
 
     public Lesson(String lessonName, Difficulty lessonDifficulty) {
+        this.lessonId = UUID.randomUUID();
         this.lessonName = lessonName;
         this.lessonDifficulty = lessonDifficulty;
     }
 
     public Lesson(String lessonName, String lessonSummary, Difficulty lessonDifficulty, List<Passage> passages) {
+        this.lessonId = UUID.randomUUID();
         this.lessonName = lessonName;
         this.lessonSummary = lessonSummary;
         this.lessonDifficulty = lessonDifficulty;
         this.passages = passages;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public UUID getLessonId() {
+        return this.lessonId;
     }
 
     public String getLessonName() {

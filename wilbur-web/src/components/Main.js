@@ -1,10 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import LoginPage from '../pages/LoginPage';
-import StudentView from '../pages/StudentView';
-import TeacherView from '../pages/TeacherView';
-import LessonBuilder from '../pages/LessonBuilder';
+import LoginPage from '../views/home/LoginPage';
+import StudentView from '../views/student/StudentView';
+import TeacherView from '../views/teacher/TeacherView';
+import LessonBuilder from '../views/teacher/LessonBuilder';
+import LessonView from '../views/student/LessonView';
 
 const Main = () => {
   return (
@@ -14,6 +15,7 @@ const Main = () => {
       <Route exact path='/student' component={StudentView}></Route>
       <Route exact path='/teacher' component={TeacherView}></Route>
       <Route exact path='/create-lesson' component={LessonBuilder}></Route>
+      <Route exact path="/take-lesson/:id" component={LessonView}></Route>
     </Switch>
   );
 }

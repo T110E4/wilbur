@@ -20,7 +20,16 @@ public class Student {
     private int performanceValue;
     private HashMap<UUID, Lesson> lessonsTaken = new HashMap<UUID, Lesson>();
 
-    public Student() {}
+    public Student() {
+        this.studentId = UUID.randomUUID();
+    }
+
+    public Student(String firstName, String lastName) {
+        this.studentId = UUID.randomUUID();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.performanceValue = 0;
+    }
 
     public Student(UUID studentId, String firstName, String lastName) {
         this.studentId = studentId;
@@ -29,7 +38,7 @@ public class Student {
         this.performanceValue = 0;
     }
 
-    public UUID getId() {
+    public UUID getStudentId() {
         return this.studentId;
     }
 

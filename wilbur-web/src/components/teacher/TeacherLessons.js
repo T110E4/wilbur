@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
+import './TeacherLessons.css';
+
 /**
  * This component manages the teacher lesson list
  */
