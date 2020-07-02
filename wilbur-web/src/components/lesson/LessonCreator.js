@@ -149,16 +149,14 @@ class LessonCreator extends React.Component {
 
           <Row>
             <Col>
-              <Button onClick={this.handleAddPassage} variant="primary">Add Passage</Button>
+              <Button onClick={this.handleAddPassage} variant="primary">Add</Button>
             </Col>
-          </Row>
-          <Row>
             <Col>
-              <Button onClick={this.handleRemovePassage} variant="danger">Delete Last Passage</Button>
+            <Button onClick="Submit" type="submit" variant="success">Save</Button>
             </Col>
-          </Row>
-          <Row>
-            <Button onClick="Submit" type="submit" variant="success">Save Lesson</Button>
+            <Col>
+              <Button onClick={this.handleRemovePassage} variant="danger">Delete</Button>
+            </Col>
           </Row>
         </Form>
       </Container>
