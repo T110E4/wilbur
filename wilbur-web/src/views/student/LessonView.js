@@ -13,6 +13,7 @@ class LessonView extends React.Component {
         this.getPassages();
     }
 
+    //TODO: Update to actually get a lesson
     getLesson = () => {
         // read all entities
         fetch("http://localhost:8080/get-passages?id="+this.props.match.params.id, {
@@ -56,7 +57,7 @@ class LessonView extends React.Component {
         return (
             <div className="LessonView">
                 <h1>Lesson View {this.props.match.params.id} </h1>
-                <h3>Lesson Summary</h3>
+                <h3>{this.state.passages[0].lessonSummary}</h3>
                 <p></p>
                 <h2>{this.state.passages[0].passageText}</h2>
                 <Container>

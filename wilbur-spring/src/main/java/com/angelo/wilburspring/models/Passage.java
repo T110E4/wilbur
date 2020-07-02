@@ -30,6 +30,9 @@ public class Passage implements Serializable {
     @Column(columnDefinition="text", length=10485760)
     public String passageText;
 
+    @Column(columnDefinition="text", length=10485760)
+    public String passageQuestion;
+
     public Passage(){
         this.passageId = UUID.randomUUID();
     }
