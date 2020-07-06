@@ -1,13 +1,17 @@
 package com.angelo.wilburspring.models;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * A lesson is composed of passages which are collections of text that are to be
@@ -28,10 +32,10 @@ public class Passage implements Serializable {
     private UUID passageId;
 
     @Column(columnDefinition="text", length=10485760)
-    public String passageText;
-
-    @Column(columnDefinition="text", length=10485760)
-    public String passageQuestion;
+    private String passageText;
+    
+    @OneToMany(targetEntity = Question.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Question> questions;
 
     public Passage(){
         this.passageId = UUID.randomUUID();
@@ -48,4 +52,5 @@ public class Passage implements Serializable {
     public String getPassageText() {
         return this.passageText;
     }
+
 }

@@ -21,17 +21,6 @@ class LessonCreator extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    const target = event.target;
-    const name = target.name;
-    const value = target.value;
-
-
-    this.setState({
-      [name]: value
-    });
-  }
-
   saveLesson() {
     fetch("http://localhost:8080/add-lesson", {
       "method": "POST",
@@ -60,6 +49,17 @@ class LessonCreator extends React.Component {
     event.preventDefault();
   }
 
+  handleChange(event) {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
+
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   handlePassageChange = idx => evt => {
     const newPassage = this.state.passages.map((passage, sidx) => {
       if (idx !== sidx) return passage;
@@ -68,14 +68,17 @@ class LessonCreator extends React.Component {
     this.setState({ passages: newPassage });
   }
 
-    handleQuestionChange = idx => evt => {
-      const newPassage = this.state.passages.map((passage, sidx) => {
-        if (idx !== sidx) return passage;
-        return { ...passage, passageQuestion: evt.target.value };
-      });
-
-    this.setState({ passages: newPassage });
+  handleQuestionChange = idx => evt => {
+    const newQuestion = this.state.passages.map((passage, sidx) => {
+      if (idx !== sidx) return passage;
+      return { ...passage, passageQuestion: evt.target.value };
+    });
+    this.setState({ passages: newQuestion });
   };
+
+  handleAnswerChange = idx => evt => {
+
+  }
 
   handleAddPassage = () => {
     this.setState({
@@ -95,56 +98,48 @@ class LessonCreator extends React.Component {
     return (
       <Container>
         <Form onSubmit={this.handleSubmit} className="App-header">
-          <Row>
-            <Col><Form.Label>Lesson Name:</Form.Label></Col>
-            <Col>
-              <input name="lessonName" type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
-            </Col>
-          </Row>
-          <Row>
-            <Col><Form.Label>Lesson Summary:</Form.Label></Col>
-            <Col>
-              <textarea name="lessonSummary" type="text" placeholder="Enter a Lesson Summary" onChange={this.handleChange} />
-            </Col>
-          </Row>
-          <Row>
-            <Col><Form.Label>Difficulty:</Form.Label></Col>
-            <Col>
-              <select name="lessonDifficulty" value={this.state.lessonDifficulty} onChange={this.handleChange} >
+          <Form.Group controlId="lessonName">
+            <Form.Label>Lesson Name:</Form.Label>
+            <Form.Control name="lessonName" size="lg" type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Lesson Summary:</Form.Label>
+            <Form.Control name="lessonSummary" size="lg" type="text" placeholder="Enter a Lesson Summary" onChange={this.handleChange} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Difficulty:</Form.Label>
+            <Form.Control name="lessonDifficulty" value={this.state.lessonDifficulty} onChange={this.handleChange} as="select" size="lg">
                 <option value='EASY'>Easy</option>
                 <option value='MEDIUM'>Medium</option>
                 <option value='HARD'>Hard</option>
-                <option value='CHALLENGE'>Challenging</option>
-              </select>
-            </Col>
-          </Row>
-
+                <option value='CHALLENGE'>Challenging</option>            
+            </Form.Control>
+          </Form.Group>
           {this.state.passages.map((passage, idx) => (
-            <div>
-            <Row>
-              <Col><Form.Label>{`Passage #${idx + 1}:`}</Form.Label></Col>
-              <Col>
-                <div className="passage" key={idx}>
-                  <textarea
-                    placeholder={`Passage #${idx + 1} text. Key ${passage.key}`}
-                    onChange={this.handlePassageChange(idx)}
-                  />
-                </div>
-              </Col>
-            </Row>
-
-            <Row>
-            <Col><Form.Label>{`Question #${idx + 1}:`}</Form.Label></Col>
-            <Col>
-              <div className="question" key={idx}>
-                <textarea
-                  placeholder={`Question #${idx + 1} text. Key ${passage.key}`}
-                  onChange={this.handleQuestionChange(idx)}
+            <Form.Group>
+              <Form.Label>{`Passage #${idx + 1}:`}</Form.Label>
+              <Form.Control placeholder={`Passage #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
+              onChange={this.handlePassageChange(idx)}>
+              </Form.Control>
+              <Form.Group>
+              <Form.Label>{`Question #${idx + 1}:`}</Form.Label>
+              <Form.Control placeholder={`Question #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
+              onChange={this.handleQuestionChange(idx)} />
+              <div key={'answerA'} className="mb-2">
+                <Form.Control name="answerA" size="md" type="text" placeholder="Enter Answer A" onChange={this.handleChange} />
+                <Form.Check 
+                  custom
+                  inline
+                  type="checkbox"
+                  id="custom-inline-checkbox-2"
+                  label=""
                 />
               </div>
-            </Col>
-          </Row>
-          </div>
+                <Form.Control name="answerB" size="md" type="text" placeholder="Enter Answer B" onChange={this.handleChange} />
+                <Form.Control name="answerC" size="md" type="text" placeholder="Enter Answer C" onChange={this.handleChange} />
+                <Form.Control name="answerD" size="md" type="text" placeholder="Enter Answer D" onChange={this.handleChange} />
+              </Form.Group>
+            </Form.Group>
           ))}
 
           <Row>
@@ -162,7 +157,6 @@ class LessonCreator extends React.Component {
       </Container>
     );
   }
-
 }
 
 export default LessonCreator;
