@@ -14,7 +14,16 @@ class LessonCreator extends React.Component {
     this.state = {
       lessonName: 'test',
       lessonDifficulty: 'MEDIUM',
-      passages: [{ key: 0, passageText: 'Enter your passage here!', passageQuestion: 'Enter your passage question here!' }]
+      passages: [{ 
+        key: 0, 
+        passageText: 'Enter your passage here!', 
+        questionText: 'Enter your passage question here!',
+        answerText: 'Enter your answer text here!',
+        answerACheckbox: false,
+        answerBCheckbox: false,
+        answerCCheckbox: false,
+        answerDCheckbox: false
+      }],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -68,21 +77,35 @@ class LessonCreator extends React.Component {
     this.setState({ passages: newPassage });
   }
 
-  handleQuestionChange = idx => evt => {
-    const newQuestion = this.state.passages.map((passage, sidx) => {
-      if (idx !== sidx) return passage;
-      return { ...passage, passageQuestion: evt.target.value };
+  handleQuestionChange(pidx, stringKey, event) {
+    const newPassage = this.state.passages.map((passage, sidx) => {
+      if (pidx !== sidx) return passage;
+      return { ...passage, stringKey: event.target.value };
     });
-    this.setState({ passages: newQuestion });
+    this.setState({ passages : newPassage });
   };
 
-  handleAnswerChange = idx => evt => {
-
-  }
+  handleCheckboxChange(pidx, stringKey, event) {
+    const newPassage = this.state.passages.map((passage, sidx) => {
+      if (pidx !== sidx) return passage;
+      return { ...passage, stringKey: event.target.checked };
+    });
+    this.setState({ passages : newPassage });
+  };
 
   handleAddPassage = () => {
     this.setState({
-      passages: this.state.passages.concat([{ key: this.state.passages.length, passageText: "", passageQuestion: "" }])
+      passages: 
+      this.state.passages.concat([{ 
+        key: this.state.passages.length, 
+        passageText: 'Enter your passage here!', 
+        questionText: 'Enter your passage question here!',
+        answerText: 'Enter your answer text here!',
+        answerACheckbox: false,
+        answerBCheckbox: false,
+        answerCCheckbox: false,
+        answerDCheckbox: false,
+      }])
     });
   };
 
@@ -93,6 +116,32 @@ class LessonCreator extends React.Component {
         passages: this.state.passages
       });
   };
+
+  handleAnswerCheckboxChange(checkbox, pidx, qidx, event) {
+    console.log(checkbox+" : "+event.target.checked+" : "+pidx)
+
+    const passage = this.state.passages.map((passage, sidx) => {
+      if (pidx !== sidx) return passage;
+      return { ...passage, passageQuestion: event.target.value };
+    });
+    const newQuestion = passage.passageQuestions[qidx];
+
+    if (checkbox == "A") {
+      this.setState({answerACheckbox : event.target.checked})
+    } else if (checkbox == "B") {
+      this.setState({answerBCheckbox : event.target.checked})
+    } else if (checkbox == "C") {
+      this.setState({answerCCheckbox : event.target.checked})
+    } else if (checkbox == "D") {
+      this.setState({answerDCheckbox : event.target.checked})
+    } else {
+      console.log("Checkbox "+checkbox+" not recognized.");
+    }
+
+    this.setState({ passages: newQuestion });
+
+
+  }
 
   render() {
     return (
@@ -121,24 +170,82 @@ class LessonCreator extends React.Component {
               <Form.Control placeholder={`Passage #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
               onChange={this.handlePassageChange(idx)}>
               </Form.Control>
+
               <Form.Group>
               <Form.Label>{`Question #${idx + 1}:`}</Form.Label>
               <Form.Control placeholder={`Question #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
-              onChange={this.handleQuestionChange(idx)} />
-              <div key={'answerA'} className="mb-2">
-                <Form.Control name="answerA" size="md" type="text" placeholder="Enter Answer A" onChange={this.handleChange} />
+              onChange={(e) => this.handleQuestionChange(idx, 'questionText', e)} />
+
+              <Row>
+                <Col>
+                <Form.Control name="answerA" size="sm" type="text" placeholder="Enter Answer A" onChange={this.handleChange} />
+                </Col>
+                <Col>
                 <Form.Check 
                   custom
                   inline
-                  type="checkbox"
-                  id="custom-inline-checkbox-2"
+                  type='checkbox'
+                  id="answerA-checkbox"
+                  label=""
+                  checked={this.state.answerACheckbox}
+                  onChange = {(e) => this.handleCheckboxChange(idx, 'answerACheckbox', e)}
+                />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                <Form.Control name="answerB" size="sm" type="text" placeholder="Enter Answer B" onChange={this.handleChange} />
+                </Col>
+                <Col>
+                <Form.Check 
+                  custom
+                  inline
+                  type='checkbox'
+                  id="answerB-checkbox"
+                  label=""
+                  checked={this.state.answerBCheckbox}
+                  onChange = {(e) => this.handleCheckboxChange(idx, 'answerBCheckbox', e)}
+                />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                <Form.Control name="answerC" size="sm" type="text" placeholder="Enter Answer C" onChange={this.handleChange} />
+                </Col>
+                <Col>
+                <Form.Check 
+                  custom
+                  inline
+                  type='checkbox'
+                  id="answerC-checkbox"
+                  checked={this.state.answerCCheckbox}
+                  onChange = {(e) => this.handleCheckboxChange(idx, 'answerCCheckbox', e)}
                   label=""
                 />
-              </div>
-                <Form.Control name="answerB" size="md" type="text" placeholder="Enter Answer B" onChange={this.handleChange} />
-                <Form.Control name="answerC" size="md" type="text" placeholder="Enter Answer C" onChange={this.handleChange} />
-                <Form.Control name="answerD" size="md" type="text" placeholder="Enter Answer D" onChange={this.handleChange} />
-              </Form.Group>
+                </Col>
+              </Row>
+
+
+              <Row>
+                <Col>
+                <Form.Control name="answerD" size="sm" type="text" placeholder="Enter Answer D" onChange={this.handleChange} />
+                </Col>
+                <Col>
+                <Form.Check 
+                  custom
+                  inline
+                  type='checkbox'
+                  id="answerD-checkbox"
+                  checked={this.state.answerDCheckbox}
+                  onChange = {(e) => this.handleCheckboxChange(idx, 'answerDCheckbox', e)}
+                  label=""
+                />
+                </Col>
+              </Row>
+
+            </Form.Group>
             </Form.Group>
           ))}
 
