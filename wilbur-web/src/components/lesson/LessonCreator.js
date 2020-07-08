@@ -18,7 +18,10 @@ class LessonCreator extends React.Component {
         key: 0, 
         passageText: 'Enter your passage here!', 
         questionText: 'Enter your passage question here!',
-        answerText: 'Enter your answer text here!',
+        answerAText: 'Enter your answer text here!',
+        answerBText: 'Enter your answer text here!',
+        answerCText: 'Enter your answer text here!',
+        answerDText: 'Enter your answer text here!',
         answerACheckbox: false,
         answerBCheckbox: false,
         answerCCheckbox: false,
@@ -100,7 +103,10 @@ class LessonCreator extends React.Component {
         key: this.state.passages.length, 
         passageText: 'Enter your passage here!', 
         questionText: 'Enter your passage question here!',
-        answerText: 'Enter your answer text here!',
+        answerAText: 'Enter your answer text here!',
+        answerBText: 'Enter your answer text here!',
+        answerCText: 'Enter your answer text here!',
+        answerDText: 'Enter your answer text here!',
         answerACheckbox: false,
         answerBCheckbox: false,
         answerCCheckbox: false,
@@ -178,7 +184,7 @@ class LessonCreator extends React.Component {
 
               <Row>
                 <Col>
-                <Form.Control name="answerA" size="sm" type="text" placeholder="Enter Answer A" onChange={this.handleChange} />
+                <Form.Control name="answerA" size="sm" type="text" placeholder="Enter Answer A" onChange={(e) => this.handleQuestionChange(idx, 'answerAText', e)} />
                 </Col>
                 <Col>
                 <Form.Check 
@@ -195,7 +201,7 @@ class LessonCreator extends React.Component {
 
               <Row>
                 <Col>
-                <Form.Control name="answerB" size="sm" type="text" placeholder="Enter Answer B" onChange={this.handleChange} />
+                <Form.Control name="answerB" size="sm" type="text" placeholder="Enter Answer B" onChange={(e) => this.handleQuestionChange(idx, 'answerBText', e)} />
                 </Col>
                 <Col>
                 <Form.Check 
@@ -212,7 +218,7 @@ class LessonCreator extends React.Component {
 
               <Row>
                 <Col>
-                <Form.Control name="answerC" size="sm" type="text" placeholder="Enter Answer C" onChange={this.handleChange} />
+                <Form.Control name="answerC" size="sm" type="text" placeholder="Enter Answer C" onChange={(e) => this.handleQuestionChange(idx, 'answerCText', e)} />
                 </Col>
                 <Col>
                 <Form.Check 
@@ -230,7 +236,7 @@ class LessonCreator extends React.Component {
 
               <Row>
                 <Col>
-                <Form.Control name="answerD" size="sm" type="text" placeholder="Enter Answer D" onChange={this.handleChange} />
+                <Form.Control name="answerD" size="sm" type="text" placeholder="Enter Answer D" onChange={(e) => this.handleQuestionChange(idx, 'answerDText', e)} />
                 </Col>
                 <Col>
                 <Form.Check 
