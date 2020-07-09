@@ -12,7 +12,8 @@ class LessonCreator extends React.Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      lessonName: 'test',
+      lessonName: '',
+      lessonSummary: '',
       lessonDifficulty: 'MEDIUM',
       passages: [{ 
         key: 0, 
@@ -83,7 +84,7 @@ class LessonCreator extends React.Component {
   handleQuestionChange(pidx, stringKey, event) {
     const newPassage = this.state.passages.map((passage, sidx) => {
       if (pidx !== sidx) return passage;
-      return { ...passage, stringKey: event.target.value };
+      return { ...passage, [stringKey]: event.target.value };
     });
     this.setState({ passages : newPassage });
   };
@@ -91,9 +92,10 @@ class LessonCreator extends React.Component {
   handleCheckboxChange(pidx, stringKey, event) {
     const newPassage = this.state.passages.map((passage, sidx) => {
       if (pidx !== sidx) return passage;
-      return { ...passage, stringKey: event.target.checked };
+      return { ...passage, [stringKey]: event.target.checked };
     });
     this.setState({ passages : newPassage });
+    console.log(this.state.passages);
   };
 
   handleAddPassage = () => {
@@ -122,32 +124,6 @@ class LessonCreator extends React.Component {
         passages: this.state.passages
       });
   };
-
-  handleAnswerCheckboxChange(checkbox, pidx, qidx, event) {
-    console.log(checkbox+" : "+event.target.checked+" : "+pidx)
-
-    const passage = this.state.passages.map((passage, sidx) => {
-      if (pidx !== sidx) return passage;
-      return { ...passage, passageQuestion: event.target.value };
-    });
-    const newQuestion = passage.passageQuestions[qidx];
-
-    if (checkbox == "A") {
-      this.setState({answerACheckbox : event.target.checked})
-    } else if (checkbox == "B") {
-      this.setState({answerBCheckbox : event.target.checked})
-    } else if (checkbox == "C") {
-      this.setState({answerCCheckbox : event.target.checked})
-    } else if (checkbox == "D") {
-      this.setState({answerDCheckbox : event.target.checked})
-    } else {
-      console.log("Checkbox "+checkbox+" not recognized.");
-    }
-
-    this.setState({ passages: newQuestion });
-
-
-  }
 
   render() {
     return (

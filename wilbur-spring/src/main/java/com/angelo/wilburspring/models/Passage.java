@@ -1,17 +1,13 @@
 package com.angelo.wilburspring.models;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  * A lesson is composed of passages which are collections of text that are to be
@@ -25,8 +21,8 @@ public class Passage implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id", unique=true, nullable=false)
-    private long id;
+    @Column(name="key", unique=true, nullable=false)
+    private long key;
 
     @Column(name="passage_id", unique=true, nullable=false)
     private UUID passageId;
@@ -34,23 +30,122 @@ public class Passage implements Serializable {
     @Column(columnDefinition="text", length=10485760)
     private String passageText;
     
-    @OneToMany(targetEntity = Question.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Question> questions;
+    @Column(columnDefinition="text", length=10485760)
+    private String questionText;
+
+    @Column(columnDefinition="text", length=10485760)
+    private String answerAText;
+    @Column(columnDefinition="text", length=10485760)
+    private String answerBText;
+    @Column(columnDefinition="text", length=10485760)
+    private String answerCText;
+    @Column(columnDefinition="text", length=10485760)
+    private String answerDText;
+
+    @Column(name="answer_a_checked")
+    private Boolean answerACheckbox;
+    @Column(name="answer_b_checked")
+    private Boolean answerBCheckbox;
+    @Column(name="answer_c_checked")
+    private Boolean answerCCheckbox;
+    @Column(name="answer_d_checked")
+    private Boolean answerDCheckbox;
 
     public Passage(){
         this.passageId = UUID.randomUUID();
-    }
-
-    public Passage(String passageText){
-        this.passageText = passageText;
     }
 
     public UUID getPassageId() {
         return this.passageId;
     }
 
-    public String getPassageText() {
-        return this.passageText;
+    public long getKey() {
+        return key;
     }
+
+    public void setKey(long key) {
+        this.key = key;
+    }
+
+    public String getPassageText() {
+        return passageText;
+    }
+
+    public void setPassageText(String passageText) {
+        this.passageText = passageText;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+    public String getAnswerAText() {
+        return answerAText;
+    }
+
+    public void setAnswerAText(String answerAText) {
+        this.answerAText = answerAText;
+    }
+
+    public String getAnswerBText() {
+        return answerBText;
+    }
+
+    public void setAnswerBText(String answerBText) {
+        this.answerBText = answerBText;
+    }
+
+    public String getAnswerCText() {
+        return answerCText;
+    }
+
+    public void setAnswerCText(String answerCText) {
+        this.answerCText = answerCText;
+    }
+
+    public String getAnswerDText() {
+        return answerDText;
+    }
+
+    public void setAnswerDText(String answerDText) {
+        this.answerDText = answerDText;
+    }
+
+    public Boolean getAnswerACheckbox() {
+        return answerACheckbox;
+    }
+
+    public void setAnswerACheckbox(Boolean answerACheckbox) {
+        this.answerACheckbox = answerACheckbox;
+    }
+
+    public Boolean getAnswerBCheckbox() {
+        return answerBCheckbox;
+    }
+
+    public void setAnswerBCheckbox(Boolean answerBCheckbox) {
+        this.answerBCheckbox = answerBCheckbox;
+    }
+
+    public Boolean getAnswerCCheckbox() {
+        return answerCCheckbox;
+    }
+
+    public void setAnswerCCheckbox(Boolean answerCCheckbox) {
+        this.answerCCheckbox = answerCCheckbox;
+    }
+
+    public Boolean getAnswerDCheckbox() {
+        return answerDCheckbox;
+    }
+
+    public void setAnswerDCheckbox(Boolean answerDCheckbox) {
+        this.answerDCheckbox = answerDCheckbox;
+    }
+
 
 }
