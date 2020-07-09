@@ -167,7 +167,7 @@ class LessonCreator extends React.Component {
                   custom
                   inline
                   type='checkbox'
-                  id="answerA-checkbox"
+                  id={["answerA-checkbox", idx].join()}
                   label=""
                   checked={this.state.answerACheckbox}
                   onChange = {(e) => this.handleCheckboxChange(idx, 'answerACheckbox', e)}
@@ -184,7 +184,7 @@ class LessonCreator extends React.Component {
                   custom
                   inline
                   type='checkbox'
-                  id="answerB-checkbox"
+                  id={["answerB-checkbox", idx].join()}
                   label=""
                   checked={this.state.answerBCheckbox}
                   onChange = {(e) => this.handleCheckboxChange(idx, 'answerBCheckbox', e)}
@@ -201,7 +201,7 @@ class LessonCreator extends React.Component {
                   custom
                   inline
                   type='checkbox'
-                  id="answerC-checkbox"
+                  id={["answerC-checkbox", idx].join()}
                   checked={this.state.answerCCheckbox}
                   onChange = {(e) => this.handleCheckboxChange(idx, 'answerCCheckbox', e)}
                   label=""
@@ -219,8 +219,7 @@ class LessonCreator extends React.Component {
                   custom
                   inline
                   type='checkbox'
-                  id="answerD-checkbox"
-                  checked={this.state.answerDCheckbox}
+                  id={["answerD-checkbox", idx].join()}
                   onChange = {(e) => this.handleCheckboxChange(idx, 'answerDCheckbox', e)}
                   label=""
                 />

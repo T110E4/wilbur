@@ -21,8 +21,8 @@ public class Passage implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="key", unique=true, nullable=false)
-    private long key;
+    @Column(name="id", unique=true, nullable=false)
+    private long id;
 
     @Column(name="passage_id", unique=true, nullable=false)
     private UUID passageId;
@@ -57,14 +57,6 @@ public class Passage implements Serializable {
 
     public UUID getPassageId() {
         return this.passageId;
-    }
-
-    public long getKey() {
-        return key;
-    }
-
-    public void setKey(long key) {
-        this.key = key;
     }
 
     public String getPassageText() {
