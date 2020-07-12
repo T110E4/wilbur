@@ -18,6 +18,7 @@ class LessonCreator extends React.Component {
       passages: [{ 
         key: 0, 
         passageText: 'Enter your passage here!', 
+        textStructure: 'Comparison',
         questionText: 'Enter your passage question here!',
         answerAText: 'Enter your answer text here!',
         answerBText: 'Enter your answer text here!',
@@ -75,10 +76,10 @@ class LessonCreator extends React.Component {
     });
   }
 
-  handlePassageChange = idx => evt => {
+  handlePassageChange(idx, stringKey, event) {
     const newPassage = this.state.passages.map((passage, sidx) => {
       if (idx !== sidx) return passage;
-      return { ...passage, passageText: evt.target.value };
+      return { ...passage, [stringKey]: event.target.value };
     });
     this.setState({ passages: newPassage });
   }
@@ -106,6 +107,7 @@ class LessonCreator extends React.Component {
       this.state.passages.concat([{ 
         key: this.state.passages.length, 
         passageText: 'Enter your passage here!', 
+        textStructure: 'Comparison',
         questionText: 'Enter your passage question here!',
         answerAText: 'Enter your answer text here!',
         answerBText: 'Enter your answer text here!',
@@ -134,15 +136,15 @@ class LessonCreator extends React.Component {
       <Container>
         <Form onSubmit={this.handleSubmit} className="App-header">
           <Form.Group controlId="lessonName">
-            <Form.Label>Lesson Name:</Form.Label>
+            <Form.Label>Lesson Name</Form.Label>
             <Form.Control name="lessonName" size="lg" type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Lesson Summary:</Form.Label>
+            <Form.Label>Lesson Summary</Form.Label>
             <Form.Control name="lessonSummary" size="lg" type="text" placeholder="Enter a Lesson Summary" onChange={this.handleChange} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Difficulty:</Form.Label>
+            <Form.Label>Difficulty</Form.Label>
             <Form.Control name="lessonDifficulty" value={this.state.lessonDifficulty} onChange={this.handleChange} as="select" size="lg">
                 <option value='EASY'>Easy</option>
                 <option value='MEDIUM'>Medium</option>
@@ -154,11 +156,18 @@ class LessonCreator extends React.Component {
             <Form.Group>
               <Form.Label>{`Passage #${idx + 1}:`}</Form.Label>
               <Form.Control placeholder={`Passage #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
-              onChange={this.handlePassageChange(idx)}>
-              </Form.Control>
+              onChange={(e) => this.handlePassageChange(idx, "passageText", e)} />
+
+            <Form.Label>Text Structure</Form.Label>
+            <Form.Control name="textStructure" value={passage.textStructure} onChange={(e) => this.handlePassageChange(idx, 'textStructure', e)} as="select" size="lg">
+                <option value='COMPARISON'>Comparison</option>
+                <option value='CAUSE_EFFECT'>Cause and effect</option>
+                <option value='SEQUENCE'>Sequence</option>
+                <option value='DESCRIPTION'>Description</option>            
+            </Form.Control>
 
               <Form.Group>
-              <Form.Label>{`Question #${idx + 1}:`}</Form.Label>
+              <Form.Label>{`Question #${idx + 1}`}</Form.Label>
               <Form.Control placeholder={`Question #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
               onChange={(e) => this.handleQuestionChange(idx, 'questionText', e)} />
 

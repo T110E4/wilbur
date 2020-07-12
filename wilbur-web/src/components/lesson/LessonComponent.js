@@ -1,5 +1,6 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
 
 import './LessonComponent.css';
 
@@ -22,9 +23,7 @@ class LessonComponent extends React.Component {
         }
     }
 
-    /**
-     * Get a lesson given a lessonId
-     */
+     //Get a lesson given a lessonId
     getLesson = () => {
         // read all entities
         fetch("http://localhost:8080/get-lesson?id=" + this.props.lessonId, {
@@ -51,10 +50,12 @@ class LessonComponent extends React.Component {
             }
         }
         return (
+            <Card bg="light">
             <Container>
                 <h1>{this.state.lessonName}</h1> <h5>{this.props.lessonId}</h5>
                 <h3>{this.state.lessonSummary}</h3>
             </Container>
+            </Card>
         );
     }
 

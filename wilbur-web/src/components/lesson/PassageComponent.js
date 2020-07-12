@@ -3,6 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+
+import './PassageComponent.css';
 
 /**
  * This component manages the student lesson list
@@ -15,6 +19,12 @@ class PassageComponent extends React.Component {
             passageIndex: 0,
             passageCount: 0,
             buttonText: "Next",
+            answerA: false,
+            answerB: false,
+            answerC: false,
+            answerD: false,
+            answerE: false,
+            selectedValues: ['answerA']
         }
       }
 
@@ -25,6 +35,20 @@ class PassageComponent extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.lessonId !== this.props.lessonId) {
             this.getPassages();
+        }
+    }
+
+
+    getTssHuman(textStructure){
+        switch(textStructure) {
+            case 'COMPARISON':
+                return "Comparison";
+            case 'CAUSE_EFFECT':
+                return "Cause & Effect";
+            case 'SEQUENCE':
+                return "Sequence"
+            case 'DESCRIPTION':
+                return "Description"
         }
     }
 
@@ -79,6 +103,23 @@ class PassageComponent extends React.Component {
         console.log(this.state.passageCount);
     }
 
+    handleChange = (val) => {
+        var answerStates = {
+            answerA: false,
+            answerB: false,
+            answerC: false,
+            answerD: false,
+            answerE: false
+        }
+        var selectedAnswers = [];
+        val.forEach(function (item, index) {
+            answerStates[item] = true;
+            selectedAnswers.push(item);
+            console.log(item, index);
+        });
+        this.setState(answerStates)
+        this.setState({selectedValues: selectedAnswers});
+    }
 
     render() {
         if (!this.state || !this.state.passages) {
@@ -88,11 +129,12 @@ class PassageComponent extends React.Component {
                 return <div> Loading Passages for Lesson {this.props.lessonId}</div>
             }
         }
+        
         return (
             <Container>
                 <Card bg="light">
                     <Card.Body>
-                    <Card.Title>Passage</Card.Title>
+                    <Card.Title>Passage - {this.getTssHuman(this.state.passages[this.state.passageIndex].textStructure)} </Card.Title>
                     <Card.Text>
                         {this.state.passages[this.state.passageIndex].passageText}
                     </Card.Text>
@@ -101,43 +143,17 @@ class PassageComponent extends React.Component {
                 <Card bg="dark" text="white" >
                     <h3>{this.state.passages[this.state.passageIndex].questionText}</h3>
                     <Form onSubmit={this.handleSubmitAnswer} className="passage-question">
-                        <Form.Group>
-                            <Form.Check
-                                type='checkbox'
-                                id="answerA-checkbox"
-                                label={this.state.passages[this.state.passageIndex].answerAText}
-                                checked={this.state.answerACheckbox}
-                                onChange={(e) => this.handleCheckboxChange()}
-                            />
-                            <Form.Check
-                                type='checkbox'
-                                id="answerB-checkbox"
-                                label={this.state.passages[this.state.passageIndex].answerBText}
-                                checked={this.state.answerBCheckbox}
-                                onChange={(e) => this.handleCheckboxChange()}
-                            />
-                            <Form.Check
-                                type='checkbox'
-                                id="answerC-checkbox"
-                                label={this.state.passages[this.state.passageIndex].answerCText}
-                                checked={this.state.answerCCheckbox}
-                                onChange={(e) => this.handleCheckboxChange()}
-                            />
-                            <Form.Check
-                                type='checkbox'
-                                id="answerD-checkbox"
-                                label={this.state.passages[this.state.passageIndex].answerDText}
-                                checked={this.state.answerDCheckbox}
-                                onChange={(e) => this.handleCheckboxChange()}
-                            />
-                            <Form.Check
-                                type='checkbox'
-                                id="answerE-checkbox"
-                                label={this.state.passages[this.state.passageIndex].answerEText}
-                                checked={this.state.answerECheckbox}
-                                onChange={(e) => this.handleCheckboxChange()}
-                            />
-                        </Form.Group>
+                        <ToggleButtonGroup 
+                            vertical
+                            value = {this.state.selectedValues}
+                            onChange = {this.handleChange}
+                            type="checkbox" >
+                            <ToggleButton value={"answerA"}>{this.state.passages[this.state.passageIndex].answerAText} </ToggleButton>
+                            <ToggleButton value={"answerB"}>{this.state.passages[this.state.passageIndex].answerBText} </ToggleButton>
+                            <ToggleButton value={"answerC"}>{this.state.passages[this.state.passageIndex].answerCText} </ToggleButton>
+                            <ToggleButton value={"answerD"}>{this.state.passages[this.state.passageIndex].answerDText} </ToggleButton>
+                            <ToggleButton value={"answerE"}>{this.state.passages[this.state.passageIndex].answerEText} </ToggleButton>
+                        </ToggleButtonGroup>
                     </Form>
                 </Card>
                 <Button
@@ -147,7 +163,6 @@ class PassageComponent extends React.Component {
             </Container>
         );
     }
-
 }
 
 export default PassageComponent;

@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.angelo.wilburspring.lessons.TextStructure;
+
 /**
  * A lesson is composed of passages which are collections of text that are to be
  * read by the student
@@ -29,6 +31,8 @@ public class Passage implements Serializable {
 
     @Column(columnDefinition="text", length=10485760)
     private String passageText;
+
+    private TextStructure textStructure;
     
     @Column(columnDefinition="text", length=10485760)
     private String questionText;
@@ -157,6 +161,14 @@ public class Passage implements Serializable {
 
     public void setAnswerECheckbox(Boolean answerECheckbox) {
         this.answerECheckbox = answerECheckbox;
+    }
+
+    public TextStructure getTextStructure() {
+        return textStructure;
+    }
+
+    public void setTextStructure(TextStructure textStructure) {
+        this.textStructure = textStructure;
     }
 
 }

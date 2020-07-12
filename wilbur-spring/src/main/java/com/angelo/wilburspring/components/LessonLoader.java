@@ -2,6 +2,7 @@ package com.angelo.wilburspring.components;
 
 import com.angelo.wilburspring.database.LessonRepository;
 import com.angelo.wilburspring.lessons.Difficulty;
+import com.angelo.wilburspring.lessons.TextStructure;
 import com.angelo.wilburspring.models.Lesson;
 import com.angelo.wilburspring.models.Passage;
 
@@ -25,7 +26,7 @@ public class LessonLoader {
         logger.info("Initializing Pre-Test Evaluation");
 		Lesson preTest = new Lesson("Pre-test Evaluation Quiz", Difficulty.EASY);
 		String preTestDescription = String.join(""
-			, "This test is designed to help evlauate your current performance with reading comprehension." 
+			, "This test is designed to help evaluate your current performance with reading comprehension." 
 			, " You will be presented with a number of passages, and after each passage you will be asked one question about the passage."
 			, " You will choose an answer (A), (B), (C), (D) and or (E) from the answer options."
 		);
@@ -35,9 +36,10 @@ public class LessonLoader {
 		Passage passage1 = new Passage();
 		String passageText = String.join(""
 		,"The cat jumped onto the gate and stretched out. Moments later, Gerald the dog walked out"
-		," of the big blue house. When it saw him walk past the cat lunged into the air and bolted under the porch."
+		," of the big blue house. When she saw it walk past, she jumped into the air and bolted under the porch."
 		);
 		passage1.setPassageText(passageText);
+		passage1.setTextStructure(TextStructure.CAUSE_EFFECT);
 		passage1.setQuestionText("In this passage, what does the word 'it' refer to?");
 		passage1.setAnswerAText("The Cat");
 		passage1.setAnswerBText("The Dog");
@@ -55,6 +57,7 @@ public class LessonLoader {
 		," Billy's best friend is a squirrel."
 		);
 		passage2.setPassageText(passageText);
+		passage2.setTextStructure(TextStructure.SEQUENCE);
 		passage2.setQuestionText("What is the squirrel's name?");
 		passage2.setAnswerAText("The Cat");
 		passage2.setAnswerBText("Billy");
@@ -71,6 +74,7 @@ public class LessonLoader {
 		," He smiles with delight at the sight of hay."
 		);
 		passage3.setPassageText(passageText);
+		passage2.setTextStructure(TextStructure.CAUSE_EFFECT);
 		passage3.setQuestionText("In this passage, what makes Billy happy?");
 		passage3.setAnswerAText("The Cat");
 		passage3.setAnswerBText("Hay");
