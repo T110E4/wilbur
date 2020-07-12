@@ -23,10 +23,12 @@ class LessonCreator extends React.Component {
         answerBText: 'Enter your answer text here!',
         answerCText: 'Enter your answer text here!',
         answerDText: 'Enter your answer text here!',
+        answerEText: 'Enter your answer text here!',
         answerACheckbox: false,
         answerBCheckbox: false,
         answerCCheckbox: false,
-        answerDCheckbox: false
+        answerDCheckbox: false,
+        answerECheckbox: false,
       }],
     };
 
@@ -109,10 +111,12 @@ class LessonCreator extends React.Component {
         answerBText: 'Enter your answer text here!',
         answerCText: 'Enter your answer text here!',
         answerDText: 'Enter your answer text here!',
+        answerEText: 'Enter your answer text here!',
         answerACheckbox: false,
         answerBCheckbox: false,
         answerCCheckbox: false,
         answerDCheckbox: false,
+        answerECheckbox: false,
       }])
     });
   };
@@ -221,6 +225,22 @@ class LessonCreator extends React.Component {
                   type='checkbox'
                   id={["answerD-checkbox", idx].join()}
                   onChange = {(e) => this.handleCheckboxChange(idx, 'answerDCheckbox', e)}
+                  label=""
+                />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                <Form.Control name="answerE" size="sm" type="text" placeholder="Enter Answer E" onChange={(e) => this.handleQuestionChange(idx, 'answerEText', e)} />
+                </Col>
+                <Col>
+                <Form.Check 
+                  custom
+                  inline
+                  type='checkbox'
+                  id={["answerE-checkbox", idx].join()}
+                  onChange = {(e) => this.handleCheckboxChange(idx, 'answerECheckbox', e)}
                   label=""
                 />
                 </Col>

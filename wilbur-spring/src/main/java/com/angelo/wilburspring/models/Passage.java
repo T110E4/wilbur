@@ -41,6 +41,8 @@ public class Passage implements Serializable {
     private String answerCText;
     @Column(columnDefinition="text", length=10485760)
     private String answerDText;
+    @Column(columnDefinition="text", length=10485760)
+    private String answerEText;
 
     @Column(name="answer_a_checked")
     private Boolean answerACheckbox;
@@ -50,6 +52,8 @@ public class Passage implements Serializable {
     private Boolean answerCCheckbox;
     @Column(name="answer_d_checked")
     private Boolean answerDCheckbox;
+    @Column(name="answer_e_checked")
+    private Boolean answerECheckbox;
 
     public Passage(){
         this.passageId = UUID.randomUUID();
@@ -107,6 +111,14 @@ public class Passage implements Serializable {
         this.answerDText = answerDText;
     }
 
+    public String getAnswerEText() {
+        return answerEText;
+    }
+
+    public void setAnswerEText(String answerEText) {
+        this.answerEText = answerEText;
+    }
+
     public Boolean getAnswerACheckbox() {
         return answerACheckbox;
     }
@@ -139,5 +151,12 @@ public class Passage implements Serializable {
         this.answerDCheckbox = answerDCheckbox;
     }
 
+    public Boolean getAnswerECheckbox() {
+        return answerECheckbox;
+    }
+
+    public void setAnswerECheckbox(Boolean answerECheckbox) {
+        this.answerECheckbox = answerECheckbox;
+    }
 
 }

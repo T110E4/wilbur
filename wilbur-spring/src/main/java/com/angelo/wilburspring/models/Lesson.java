@@ -1,5 +1,6 @@
 package com.angelo.wilburspring.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,16 +41,19 @@ public class Lesson {
 
     private Lesson() {
         this.lessonId = UUID.randomUUID();
+        this.passages = new ArrayList<Passage>();
     }
 
     public Lesson(String lessonName, Difficulty lessonDifficulty) {
         this.lessonId = UUID.randomUUID();
+        this.passages = new ArrayList<Passage>();
         this.lessonName = lessonName;
         this.lessonDifficulty = lessonDifficulty;
     }
 
     public Lesson(String lessonName, String lessonSummary, Difficulty lessonDifficulty, List<Passage> passages) {
         this.lessonId = UUID.randomUUID();
+        this.passages = new ArrayList<Passage>();
         this.lessonName = lessonName;
         this.lessonSummary = lessonSummary;
         this.lessonDifficulty = lessonDifficulty;
@@ -57,27 +61,56 @@ public class Lesson {
     }
 
     public long getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public UUID getLessonId() {
-        return this.lessonId;
+        return lessonId;
+    }
+
+    public void setLessonId(UUID lessonId) {
+        this.lessonId = lessonId;
     }
 
     public String getLessonName() {
-        return this.lessonName;
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
     }
 
     public String getLessonSummary() {
-        return this.lessonSummary;
+        return lessonSummary;
+    }
+
+    public void setLessonSummary(String lessonSummary) {
+        this.lessonSummary = lessonSummary;
     }
 
     public Difficulty getLessonDifficulty() {
-        return this.lessonDifficulty;
+        return lessonDifficulty;
+    }
+
+    public void setLessonDifficulty(Difficulty lessonDifficulty) {
+        this.lessonDifficulty = lessonDifficulty;
     }
 
     public List<Passage> getPassages() {
-        return this.passages;
+        return passages;
     }
+
+    public void setPassages(List<Passage> passages) {
+        this.passages = passages;
+    }
+
+    public void addPassage(Passage passageToAdd){
+        this.passages.add(passageToAdd);
+    }
+
 
 }

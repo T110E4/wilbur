@@ -1,10 +1,5 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-
-import { Link } from 'react-router-dom';
 
 import './LessonComponent.css';
 
@@ -15,22 +10,31 @@ class LessonComponent extends React.Component {
 
     constructor(props) {
         super(props);
-      }
-
-    componentDidMount() {
-        this.getPassage();
     }
 
-    getPassages = () => {
+    componentDidMount(){
+        this.getLesson();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.lessonId !== this.props.lessonId) {
+            this.getLesson();
+        }
+    }
+
+    /**
+     * Get a lesson given a lessonId
+     */
+    getLesson = () => {
         // read all entities
-        //fetch("http://localhost:8080/get-lesson/"+this.id, {
-        fetch("http://localhost:8080/get-passages/"+this.id, {
+        fetch("http://localhost:8080/get-lesson?id=" + this.props.lessonId, {
             "method": "GET",
         })
             .then(response => response.json())
             .then(response => {
                 this.setState({
-                    retrievedPassage: response
+                    lessonName: response.lessonName,
+                    lessonSummary: response.lessonSummary,
                 })
             })
             .catch(err => {
@@ -38,14 +42,19 @@ class LessonComponent extends React.Component {
             });
     };
 
-
     render() {
-        if (!this.state) {
-            return <div>Loading Lesson...</div>
+        if (!this.state || !this.state.lessonName || !this.state.lessonSummary) {
+            if (!this.props.lessonId){
+                return <div>Loading Lesson...</div>
+            } else {
+                return <div> Loading Lesson {this.props.lessonId}</div>
+            }
         }
         return (
-            <div>
-            </div>
+            <Container>
+                <h1>{this.state.lessonName}</h1> <h5>{this.props.lessonId}</h5>
+                <h3>{this.state.lessonSummary}</h3>
+            </Container>
         );
     }
 
