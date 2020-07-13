@@ -50,12 +50,13 @@ class LessonComponent extends React.Component {
             }
         }
         return (
-            <Card bg="light">
             <Container>
-                <h1>{this.state.lessonName}</h1> <h5>{this.props.lessonId}</h5>
-                <h3>{this.state.lessonSummary}</h3>
+                <Card bg="primary" text="light">
+                    <Card.Title>{this.state.lessonName}</Card.Title>
+                    <Card.Text>{this.state.lessonSummary}</Card.Text>
+                    <Card.Text>{this.state.lessonId}</Card.Text>
+                </Card>
             </Container>
-            </Card>
         );
     }
 

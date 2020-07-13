@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
@@ -24,11 +25,11 @@ class PassageComponent extends React.Component {
             answerC: false,
             answerD: false,
             answerE: false,
-            selectedValues: ['answerA']
+            selectedValues: []
         }
-      }
+    }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getPassages();
     }
 
@@ -38,9 +39,12 @@ class PassageComponent extends React.Component {
         }
     }
 
-
-    getTssHuman(textStructure){
-        switch(textStructure) {
+    /**
+     * Get a human readable version of the text structure for display
+     * @param {*} textStructure 
+     */
+    getTssHuman(textStructure) {
+        switch (textStructure) {
             case 'COMPARISON':
                 return "Comparison";
             case 'CAUSE_EFFECT':
@@ -52,9 +56,7 @@ class PassageComponent extends React.Component {
         }
     }
 
-    /**
-     * Get a passage given a lessonId
-     */
+    //Get a passage given a lessonId
     getPassages = () => {
         // read all entities
         fetch("http://localhost:8080/get-passages?id=" + this.props.lessonId, {
@@ -68,16 +70,39 @@ class PassageComponent extends React.Component {
                 this.setState({
                     passageCount: this.state.passages.length
                 });
-                console.log("Loaded "+this.state.passageCount + " passages from the server for the lesson.");
+                console.log("Loaded " + this.state.passageCount + " passages from the server for the lesson.");
             })
             .catch(err => {
                 console.log(err);
             });
     };
 
+    saveAnswer(passageId) {
+        fetch("http://localhost:8080/save-answer", {
+            "method": "POST",
+            "headers": {
+              "content-type": "application/json",
+              "accept": "application/json"
+            },
+            "body": JSON.stringify({
+                lessonId: this.props.lessonId,
+                passageId: passageId,
+                answerText: "",
+            })
+          })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+
     handleNext = () => {
 
-        this.setState( {
+        this.setState({
             answerA: false,
             answerB: false,
             answerC: false,
@@ -87,14 +112,15 @@ class PassageComponent extends React.Component {
 
         console.log(this.state.passageIndex);
         console.log(this.state.passageCount);
+        this.saveAnswer(this.state.passageIndex);
 
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
-            this.setState( {passageIndex: this.state.passageIndex + 1 } );
+            this.setState({ passageIndex: this.state.passageIndex + 1 });
         } else if (this.state.passageIndex + 1 == this.state.passageCount - 1) {
-            this.setState( {
+            this.setState({
                 passageIndex: this.state.passageIndex + 1,
                 buttonText: "Finish Lesson"
-            } );
+            });
         } else {
             console.log("Lesson complete");
             //TODO: Complete the lesson & save lesson
@@ -115,10 +141,9 @@ class PassageComponent extends React.Component {
         val.forEach(function (item, index) {
             answerStates[item] = true;
             selectedAnswers.push(item);
-            console.log(item, index);
         });
         this.setState(answerStates)
-        this.setState({selectedValues: selectedAnswers});
+        this.setState({ selectedValues: selectedAnswers });
     }
 
     render() {
@@ -129,33 +154,40 @@ class PassageComponent extends React.Component {
                 return <div> Loading Passages for Lesson {this.props.lessonId}</div>
             }
         }
-        
+
         return (
             <Container>
-                <Card bg="light">
+                <Card bg="dark" text="white">
                     <Card.Body>
-                    <Card.Title>Passage - {this.getTssHuman(this.state.passages[this.state.passageIndex].textStructure)} </Card.Title>
-                    <Card.Text>
-                        {this.state.passages[this.state.passageIndex].passageText}
-                    </Card.Text>
+                        <Card.Title>Passage - {this.getTssHuman(this.state.passages[this.state.passageIndex].textStructure)} </Card.Title>
+                        <Card.Text>
+                            {this.state.passages[this.state.passageIndex].passageText}
+                        </Card.Text>
                     </Card.Body>
                 </Card>
+                <br />
                 <Card bg="dark" text="white" >
-                    <h3>{this.state.passages[this.state.passageIndex].questionText}</h3>
-                    <Form onSubmit={this.handleSubmitAnswer} className="passage-question">
-                        <ToggleButtonGroup 
-                            vertical
-                            value = {this.state.selectedValues}
-                            onChange = {this.handleChange}
-                            type="checkbox" >
-                            <ToggleButton value={"answerA"}>{this.state.passages[this.state.passageIndex].answerAText} </ToggleButton>
-                            <ToggleButton value={"answerB"}>{this.state.passages[this.state.passageIndex].answerBText} </ToggleButton>
-                            <ToggleButton value={"answerC"}>{this.state.passages[this.state.passageIndex].answerCText} </ToggleButton>
-                            <ToggleButton value={"answerD"}>{this.state.passages[this.state.passageIndex].answerDText} </ToggleButton>
-                            <ToggleButton value={"answerE"}>{this.state.passages[this.state.passageIndex].answerEText} </ToggleButton>
-                        </ToggleButtonGroup>
-                    </Form>
+                    <Card.Body>
+                        <Card.Title>Question Prompt</Card.Title>
+                        <h4>{this.state.passages[this.state.passageIndex].questionText}</h4>
+                        <Form onSubmit={this.handleSubmitAnswer} className="passage-question">
+                            <Col>
+                                <ToggleButtonGroup
+                                    vertical
+                                    value={this.state.selectedValues}
+                                    onChange={this.handleChange}
+                                    type="checkbox" >
+                                    <ToggleButton value={"answerA"}>{this.state.passages[this.state.passageIndex].answerAText} </ToggleButton>
+                                    <ToggleButton value={"answerB"}>{this.state.passages[this.state.passageIndex].answerBText} </ToggleButton>
+                                    <ToggleButton value={"answerC"}>{this.state.passages[this.state.passageIndex].answerCText} </ToggleButton>
+                                    <ToggleButton value={"answerD"}>{this.state.passages[this.state.passageIndex].answerDText} </ToggleButton>
+                                    <ToggleButton value={"answerE"}>{this.state.passages[this.state.passageIndex].answerEText} </ToggleButton>
+                                </ToggleButtonGroup>
+                            </Col>
+                        </Form>
+                    </Card.Body>
                 </Card>
+                <br />
                 <Button
                     variant="primary"
                     onClick={this.handleNext}

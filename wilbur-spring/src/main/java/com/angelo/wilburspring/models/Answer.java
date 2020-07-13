@@ -18,12 +18,20 @@ public class Answer implements Serializable {
     @Column(name="id", unique=true, nullable=false)
     private long id;
 
+    private long passageId;
+    private long lessonId;
+
     @Column(columnDefinition="text", length=10485760)
     private String answerText = "";
     
-    private Boolean correct = false;
+    //Percentage correct for the given passage
+    private Double correct = 0.0;
 
-    public Answer(String answerText, Boolean correct) {
+    public Answer(){
+        
+    }
+
+    public Answer(String answerText, Double correct) {
         this.answerText = answerText;
         this.correct = correct;
     }
@@ -36,12 +44,28 @@ public class Answer implements Serializable {
         this.answerText = answerText;
     }
 
-    public Boolean getCorrect() {
+    public Double getCorrect() {
         return correct;
     }
 
-    public void setCorrect(Boolean correct) {
+    public void setCorrect(Double correct) {
         this.correct = correct;
+    }
+
+    public long getPassageId() {
+        return passageId;
+    }
+
+    public void setPassageId(long passageId) {
+        this.passageId = passageId;
+    }
+
+    public long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(long lessonId) {
+        this.lessonId = lessonId;
     }
     
 }

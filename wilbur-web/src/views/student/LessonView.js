@@ -29,6 +29,7 @@ class LessonView extends React.Component {
         return (
             <div className="LessonView">
                 <LessonComponent key={this.props.match.params.id} lessonId={this.state.lessonId}/>
+                <br />
                 <PassageComponent 
                     lessonId={this.props.match.params.id} 
                 />

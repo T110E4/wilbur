@@ -63,7 +63,7 @@ public class LessonLoader {
 		passage2.setAnswerBText("Billy");
 		passage2.setAnswerCText("Ralph");
 		passage2.setAnswerDText("Gerald");
-		passage1.setAnswerEText("The goat");
+		passage2.setAnswerEText("The goat");
 		passage2.setAnswerCCheckbox(true);
 		preTest.addPassage(passage2);
 
@@ -74,13 +74,13 @@ public class LessonLoader {
 		," He smiles with delight at the sight of hay."
 		);
 		passage3.setPassageText(passageText);
-		passage2.setTextStructure(TextStructure.CAUSE_EFFECT);
+		passage3.setTextStructure(TextStructure.CAUSE_EFFECT);
 		passage3.setQuestionText("In this passage, what makes Billy happy?");
 		passage3.setAnswerAText("The Cat");
 		passage3.setAnswerBText("Hay");
 		passage3.setAnswerCText("His best friend");
 		passage3.setAnswerDText("Jumping");
-		passage1.setAnswerEText("Running");
+		passage3.setAnswerEText("Running");
 		passage3.setAnswerBCheckbox(true);
 		preTest.addPassage(passage3);
 

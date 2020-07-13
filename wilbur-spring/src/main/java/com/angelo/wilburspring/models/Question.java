@@ -18,6 +18,8 @@ import com.angelo.wilburspring.lessons.Difficulty;
 @Entity
 public class Question implements Serializable {
 
+    private static final long serialVersionUID = -6597532650904471662L;
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id", unique=true, nullable=false)
@@ -53,6 +55,14 @@ public class Question implements Serializable {
 
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
     
 }

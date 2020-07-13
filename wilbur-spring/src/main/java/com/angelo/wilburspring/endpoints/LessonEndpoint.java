@@ -2,8 +2,10 @@ package com.angelo.wilburspring.endpoints;
 
 import java.util.List;
 
+import com.angelo.wilburspring.database.AnswerRepository;
 import com.angelo.wilburspring.database.LessonRepository;
 import com.angelo.wilburspring.database.PassageRepository;
+import com.angelo.wilburspring.models.Answer;
 import com.angelo.wilburspring.models.Lesson;
 import com.angelo.wilburspring.models.Passage;
 
@@ -22,6 +24,9 @@ public class LessonEndpoint {
 
     @Autowired
     private PassageRepository passageRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @RequestMapping(value="/add-lesson", method=RequestMethod.POST)
     public Lesson addLesson(@RequestBody Lesson lesson) {
@@ -43,7 +48,14 @@ public class LessonEndpoint {
         return lesson;
     }
 
-    //TODO: passageRepository not fiding IDs that exist
+    @RequestMapping(value = "/save-answer", method = RequestMethod.POST)
+    public Answer saveAnswer(@RequestBody Answer answer) {
+        Answer newAnswer = new Answer();
+        answerRepository.save(newAnswer);
+        return newAnswer;
+    }
+
+    //TODO: passageRepository not finding IDs that exist
     @RequestMapping(value = "/get-passage", method = RequestMethod.GET, produces = "application/json")
     public Passage getPassage(@RequestParam String id) {
         Long longId = Long.valueOf(id);
