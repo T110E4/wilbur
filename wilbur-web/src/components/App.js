@@ -15,7 +15,7 @@ function App() {
             width="30"
             height="30"
             className="d-inline-block align-top"
-            alt="React Bootstrap logo"
+            alt="Wilbur"
           />{' '}
           Wilbur
         </Navbar.Brand>

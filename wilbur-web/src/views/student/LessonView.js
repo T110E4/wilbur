@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Button from 'react-bootstrap/Button';
-
 import LessonComponent from '../../components/lesson/LessonComponent'
 import PassageComponent from '../../components/lesson/PassageComponent';
 
@@ -17,11 +15,6 @@ class LessonView extends React.Component {
         super(props);
         this.state = {
             lessonId: this.props.match.params.id,
-            answerA: false,
-            answerB: false,
-            answerC: false,
-            answerD: false,
-            answerE: false
         }
     }
 
@@ -30,9 +23,7 @@ class LessonView extends React.Component {
             <div className="LessonView">
                 <LessonComponent key={this.props.match.params.id} lessonId={this.state.lessonId}/>
                 <br />
-                <PassageComponent 
-                    lessonId={this.props.match.params.id} 
-                />
+                <PassageComponent lessonId={this.props.match.params.id} />
             </div>
         );
     }

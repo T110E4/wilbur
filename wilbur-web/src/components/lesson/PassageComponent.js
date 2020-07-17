@@ -6,6 +6,8 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import Modal from 'react-bootstrap/Modal';
+import { Link } from 'react-router-dom'
 
 import './PassageComponent.css';
 
@@ -20,12 +22,8 @@ class PassageComponent extends React.Component {
             passageIndex: 0,
             passageCount: 0,
             buttonText: "Next",
-            answerA: false,
-            answerB: false,
-            answerC: false,
-            answerD: false,
-            answerE: false,
-            selectedValues: []
+            selectedValues: [],
+            completed: false
         }
     }
 
@@ -99,20 +97,17 @@ class PassageComponent extends React.Component {
         });
     }
 
-
     handleNext = () => {
-
-        this.setState({
-            answerA: false,
-            answerB: false,
-            answerC: false,
-            answerD: false,
-            answerE: false
-        });
 
         console.log(this.state.passageIndex);
         console.log(this.state.passageCount);
         this.saveAnswer(this.state.passageIndex);
+
+        if (this.state.buttonText == "Finish Lesson") {
+            this.setState({
+                completed: true
+            })
+        }
 
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
             this.setState({ passageIndex: this.state.passageIndex + 1 });
@@ -125,24 +120,17 @@ class PassageComponent extends React.Component {
             console.log("Lesson complete");
             //TODO: Complete the lesson & save lesson
         }
+        var selectedAnswers = []
+        this.setState({ selectedValues: selectedAnswers });
         console.log(this.state.passageIndex);
         console.log(this.state.passageCount);
     }
 
     handleChange = (val) => {
-        var answerStates = {
-            answerA: false,
-            answerB: false,
-            answerC: false,
-            answerD: false,
-            answerE: false
-        }
         var selectedAnswers = [];
         val.forEach(function (item, index) {
-            answerStates[item] = true;
             selectedAnswers.push(item);
         });
-        this.setState(answerStates)
         this.setState({ selectedValues: selectedAnswers });
     }
 
@@ -192,6 +180,26 @@ class PassageComponent extends React.Component {
                     variant="primary"
                     onClick={this.handleNext}
                 >{this.state.buttonText}</Button>
+                <Modal
+                show={this.state.completed}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+                <Modal.Header closeButton>
+                    <Modal.Title>Lesson Complete!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <p>Congratulations! You have finished the lesson!</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                <Link to='/student'>
+                    <Button variant="primary">Finished</Button>{' '}
+                </Link>
+                </Modal.Footer>
+                </Modal>
             </Container>
         );
     }
