@@ -9,10 +9,6 @@ import './LessonComponent.css';
  */
 class LessonComponent extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount(){
         this.getLesson();
     }

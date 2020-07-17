@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -48,6 +48,8 @@ class PassageComponent extends React.Component {
             case 'SEQUENCE':
                 return "Sequence"
             case 'DESCRIPTION':
+                return "Description"
+            default:
                 return "Description"
         }
     }
@@ -106,7 +108,7 @@ class PassageComponent extends React.Component {
 
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
             this.setState({ passageIndex: this.state.passageIndex + 1 });
-        } else if (this.state.passageIndex + 1 == this.state.passageCount - 1) {
+        } else if (this.state.passageIndex + 1 === this.state.passageCount - 1) {
             this.setState({
                 passageIndex: this.state.passageIndex + 1,
                 buttonText: "Finish Lesson"

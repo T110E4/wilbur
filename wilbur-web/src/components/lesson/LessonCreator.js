@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -18,7 +18,7 @@ class LessonCreator extends React.Component {
       passages: [{ 
         key: 0, 
         passageText: 'Enter your passage here!', 
-        textStructure: 'Comparison',
+        textStructure: 'COMPARISON',
         questionText: 'Enter your passage question here!',
         answerAText: 'Enter your answer text here!',
         answerBText: 'Enter your answer text here!',
@@ -107,7 +107,7 @@ class LessonCreator extends React.Component {
       this.state.passages.concat([{ 
         key: this.state.passages.length, 
         passageText: 'Enter your passage here!', 
-        textStructure: 'Comparison',
+        textStructure: 'COMPARISON',
         questionText: 'Enter your passage question here!',
         answerAText: 'Enter your answer text here!',
         answerBText: 'Enter your answer text here!',
@@ -134,8 +134,8 @@ class LessonCreator extends React.Component {
   render() {
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit} className="App-header">
-          <Form.Group controlId="lessonName">
+        <Form key="lessonForm" onSubmit={this.handleSubmit} className="App-header">
+          <Form.Group key="lessonFormGroup" controlId="lessonName">
             <Form.Label>Lesson Name</Form.Label>
             <Form.Control name="lessonName" size="lg" type="text" placeholder="Enter a Lesson Name" onChange={this.handleChange} />
           </Form.Group>
@@ -153,7 +153,7 @@ class LessonCreator extends React.Component {
             </Form.Control>
           </Form.Group>
           {this.state.passages.map((passage, idx) => (
-            <Form.Group>
+            <Form.Group key={`FormGroup${passage.key}`}>
               <Form.Label>{`Passage #${idx + 1}:`}</Form.Label>
               <Form.Control placeholder={`Passage #${idx + 1} text. Key ${passage.key}`} as="textarea" rows="3" 
               onChange={(e) => this.handlePassageChange(idx, "passageText", e)} />
@@ -264,7 +264,7 @@ class LessonCreator extends React.Component {
               <Button onClick={this.handleAddPassage} variant="primary">Add</Button>
             </Col>
             <Col>
-            <Button onClick="Submit" type="submit" variant="success">Save</Button>
+            <Button onClick={this.handleSubmit} type="submit" variant="success">Save</Button>
             </Col>
             <Col>
               <Button onClick={this.handleRemovePassage} variant="danger">Delete</Button>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
@@ -38,7 +38,7 @@ class TeacherLessons extends React.Component {
         return (
             <div>
                 {this.state.retrievedLessons.map(lesson => (
-                    <Jumbotron>
+                    <Jumbotron key={lesson.id}>
                         <h1>{lesson.lessonName}</h1>
                         <p>
                             {lesson.lessonSummary}
