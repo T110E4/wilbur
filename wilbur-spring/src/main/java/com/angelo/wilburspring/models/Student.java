@@ -2,16 +2,21 @@ package com.angelo.wilburspring.models;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import java.util.HashMap;
 
 @Entity
 public class Student {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id", unique=true, nullable=false)
+    private long id;
 
     private UUID studentId;
     private String firstName;
@@ -39,27 +44,44 @@ public class Student {
     }
 
     public UUID getStudentId() {
-        return this.studentId;
+        return studentId;
+    }
+
+    public void setStudentId(UUID studentId) {
+        this.studentId = studentId;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
-    public String getFullName() {
-        return String.format("%s %s", this.firstName, this.lastName);
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getPerformanceValue() {
-        return this.performanceValue;
+        return performanceValue;
     }
 
-    public HashMap<UUID, Lesson> getLessons() {
-        return this.lessonsTaken;
+    public void setPerformanceValue(int performanceValue) {
+        this.performanceValue = performanceValue;
     }
+
+    public HashMap<UUID, Lesson> getLessonsTaken() {
+        return lessonsTaken;
+    }
+
+    public void setLessonsTaken(HashMap<UUID, Lesson> lessonsTaken) {
+        this.lessonsTaken = lessonsTaken;
+    }
+
     
 }

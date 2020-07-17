@@ -6,8 +6,6 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import Modal from 'react-bootstrap/Modal';
-import { Link } from 'react-router-dom'
 
 import './PassageComponent.css';
 
@@ -103,11 +101,8 @@ class PassageComponent extends React.Component {
         console.log(this.state.passageCount);
         this.saveAnswer(this.state.passageIndex);
 
-        if (this.state.buttonText == "Finish Lesson") {
-            this.setState({
-                completed: true
-            })
-        }
+        //TODO: Check the answers and provide feedback
+        //this.checkAnswer(this.state.passages[this.state.passageIndex]);
 
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
             this.setState({ passageIndex: this.state.passageIndex + 1 });
@@ -118,7 +113,11 @@ class PassageComponent extends React.Component {
             });
         } else {
             console.log("Lesson complete");
-            //TODO: Complete the lesson & save lesson
+            const isCompleted = true;
+            this.setState({
+                completed: isCompleted
+            })
+            this.props.onCompleted({isCompleted});
         }
         var selectedAnswers = []
         this.setState({ selectedValues: selectedAnswers });
@@ -180,26 +179,6 @@ class PassageComponent extends React.Component {
                     variant="primary"
                     onClick={this.handleNext}
                 >{this.state.buttonText}</Button>
-                <Modal
-                show={this.state.completed}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                >
-                <Modal.Header closeButton>
-                    <Modal.Title>Lesson Complete!</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <p>Congratulations! You have finished the lesson!</p>
-                </Modal.Body>
-
-                <Modal.Footer>
-                <Link to='/student'>
-                    <Button variant="primary">Finished</Button>{' '}
-                </Link>
-                </Modal.Footer>
-                </Modal>
             </Container>
         );
     }

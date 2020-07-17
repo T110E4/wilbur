@@ -3,12 +3,28 @@ package com.angelo.wilburspring.models;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Teacher {
 
-    private final UUID teacherId;
-    private final String firstName;
-    private final String lastName;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id", unique=true, nullable=false)
+    private long id;
+
+    private UUID teacherId;
+    private String firstName;
+    private String lastName;
     private HashMap<UUID, Student> assignedStudents;
+
+    public Teacher(){
+        this.teacherId = UUID.randomUUID();
+    }
 
     public Teacher(UUID teacherId, String firstName, String lastName) {
         this.teacherId = teacherId;
@@ -16,28 +32,36 @@ public class Teacher {
         this.lastName = lastName;
     }
 
-    public UUID getId() {
-        return this.teacherId;
+    public UUID getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(UUID teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
-    public String getFullName() {
-        return String.format("%s %s", this.firstName, this.lastName);
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public HashMap<UUID, Student> getAssignedStudents() {
-        return this.assignedStudents;
+        return assignedStudents;
     }
 
-    public Student getAssignedStudent(UUID studentId) {
-        return this.assignedStudents.get(studentId);
+    public void setAssignedStudents(HashMap<UUID, Student> assignedStudents) {
+        this.assignedStudents = assignedStudents;
     }
 
 }

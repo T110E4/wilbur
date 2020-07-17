@@ -6,6 +6,7 @@ import com.angelo.wilburspring.database.AnswerRepository;
 import com.angelo.wilburspring.database.LessonRepository;
 import com.angelo.wilburspring.database.PassageRepository;
 import com.angelo.wilburspring.models.Answer;
+import com.angelo.wilburspring.models.Feedback;
 import com.angelo.wilburspring.models.Lesson;
 import com.angelo.wilburspring.models.Passage;
 
@@ -77,6 +78,19 @@ public class LessonEndpoint {
         } else {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/get-feedback", method = RequestMethod.GET)
+    public Feedback getFeedback(@RequestParam String passageId) {
+        Long longId = Long.valueOf(passageId);
+        Feedback feedback = null;
+        Passage passage = passageRepository.findById(longId).orElse(null);
+        if (passage != null) {
+            feedback = new Feedback();
+        } else {
+            return null;
+        }
+        return feedback;
     }
     
 }
