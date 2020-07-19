@@ -1,6 +1,5 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
@@ -48,7 +47,7 @@ class PassageFeedback extends React.Component {
           console.log(`Passage ID has changed to ${this.props.passageId}`);
           this.getFeedback();
         } else if (prevProps.correct !== this.props.correct){
-            if (this.props.correct == true) {
+            if (this.props.correct === true) {
                 this.setShowFeedback(true, false);
             } else {
                 this.setShowFeedback(false, true);
