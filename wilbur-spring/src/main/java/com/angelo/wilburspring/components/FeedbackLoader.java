@@ -30,7 +30,7 @@ public class FeedbackLoader {
         //Initialize Feedback for Cause and Effect
         Feedback causeEffect1 = new Feedback();
         causeEffect1.setFeedbackString(String.join(""
-            ,"What the action being taken in the passage?"
+            ,"What is the action being taken in the passage?"
         ));
         causeEffect1.setTextStructure(TextStructure.CAUSE_EFFECT);
         feedbackRepository.save(causeEffect1);

@@ -18,22 +18,52 @@ public class Answer implements Serializable {
     @Column(name="id", unique=true, nullable=false)
     private long id;
 
+    //ID of the associated passage
     private long passageId;
-    private long lessonId;
 
     @Column(columnDefinition="text", length=10485760)
     private String answerText = "";
+
+    @Column(name="answer_a_checked")
+    private Boolean answerA;
+    @Column(name="answer_a_correct")
+    private Boolean answerACorrect;
+    @Column(name="answer_b_checked")
+    private Boolean answerB;
+    @Column(name="answer_b_correct")
+    private Boolean answerBCorrect;
+    @Column(name="answer_c_checked")
+    private Boolean answerC;
+    @Column(name="answer_c_correct")
+    private Boolean answerCCorrect;
+    @Column(name="answer_d_checked")
+    private Boolean answerD;
+    @Column(name="answer_d_correct")
+    private Boolean answerDCorrect;
+    @Column(name="answer_e_checked")
+    private Boolean answerE;
+    @Column(name="answer_e_correct")
+    private Boolean answerECorrect;
+
+    private String[] studentAnswers;
     
     //Percentage correct for the given passage
-    private Double correct = 0.0;
+    private Boolean correct = true;
 
     public Answer(){
-        
+        this.answerACorrect = false;
+        this.answerBCorrect = false;
+        this.answerCCorrect = false;
+        this.answerDCorrect = false;
+        this.answerECorrect = false;
     }
 
-    public Answer(String answerText, Double correct) {
-        this.answerText = answerText;
-        this.correct = correct;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getAnswerText() {
@@ -44,11 +74,11 @@ public class Answer implements Serializable {
         this.answerText = answerText;
     }
 
-    public Double getCorrect() {
+    public Boolean getCorrect() {
         return correct;
     }
 
-    public void setCorrect(Double correct) {
+    public void setCorrect(Boolean correct) {
         this.correct = correct;
     }
 
@@ -60,12 +90,92 @@ public class Answer implements Serializable {
         this.passageId = passageId;
     }
 
-    public long getLessonId() {
-        return lessonId;
+    public Boolean getAnswerACorrect() {
+        return answerACorrect;
     }
 
-    public void setLessonId(long lessonId) {
-        this.lessonId = lessonId;
+    public void setAnswerACorrect(Boolean answerACorrect) {
+        this.answerACorrect = answerACorrect;
+    }
+
+    public Boolean getAnswerBCorrect() {
+        return answerBCorrect;
+    }
+
+    public void setAnswerBCorrect(Boolean answerBCorrect) {
+        this.answerBCorrect = answerBCorrect;
+    }
+
+    public Boolean getAnswerCCorrect() {
+        return answerCCorrect;
+    }
+
+    public void setAnswerCCorrect(Boolean answerCCorrect) {
+        this.answerCCorrect = answerCCorrect;
+    }
+
+    public Boolean getAnswerDCorrect() {
+        return answerDCorrect;
+    }
+
+    public void setAnswerDCorrect(Boolean answerDCorrect) {
+        this.answerDCorrect = answerDCorrect;
+    }
+
+    public Boolean getAnswerECorrect() {
+        return answerECorrect;
+    }
+
+    public void setAnswerECorrect(Boolean answerECorrect) {
+        this.answerECorrect = answerECorrect;
+    }
+
+    public Boolean getAnswerA() {
+        return answerA;
+    }
+
+    public void setAnswerA(Boolean answerA) {
+        this.answerA = answerA;
+    }
+
+    public Boolean getAnswerB() {
+        return answerB;
+    }
+
+    public void setAnswerB(Boolean answerB) {
+        this.answerB = answerB;
+    }
+
+    public Boolean getAnswerC() {
+        return answerC;
+    }
+
+    public void setAnswerC(Boolean answerC) {
+        this.answerC = answerC;
+    }
+
+    public Boolean getAnswerD() {
+        return answerD;
+    }
+
+    public void setAnswerD(Boolean answerD) {
+        this.answerD = answerD;
+    }
+
+    public Boolean getAnswerE() {
+        return answerE;
+    }
+
+    public void setAnswerE(Boolean answerE) {
+        this.answerE = answerE;
+    }
+
+    public String[] getStudentAnswers() {
+        return studentAnswers;
+    }
+
+    public void setStudentAnswers(String[] studentAnswers) {
+        this.studentAnswers = studentAnswers;
     }
     
 }

@@ -32,6 +32,14 @@ public class Teacher {
         this.lastName = lastName;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public UUID getTeacherId() {
         return teacherId;
     }

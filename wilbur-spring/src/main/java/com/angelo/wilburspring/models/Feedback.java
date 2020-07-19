@@ -38,6 +38,14 @@ public class Feedback {
         this.feedbackId = UUID.randomUUID();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public UUID getFeedbackId() {
         return feedbackId;
     }

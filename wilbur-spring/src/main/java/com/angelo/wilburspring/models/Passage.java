@@ -18,7 +18,6 @@ import com.angelo.wilburspring.lessons.TextStructure;
 @Entity
 public class Passage implements Serializable {
 
-    //TODO: Generate better generator
     private static final long serialVersionUID = -7133548841955189058L;
 
     @Id
@@ -61,6 +60,14 @@ public class Passage implements Serializable {
 
     public Passage(){
         this.passageId = UUID.randomUUID();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public UUID getPassageId() {

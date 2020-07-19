@@ -22,7 +22,8 @@ class PassageComponent extends React.Component {
             passageCount: 0,
             buttonText: "Next",
             selectedValues: [],
-            completed: false
+            completed: false,
+            correct: "init"
         }
     }
 
@@ -84,23 +85,29 @@ class PassageComponent extends React.Component {
               "accept": "application/json"
             },
             "body": JSON.stringify({
-                lessonId: this.props.lessonId,
                 passageId: passageId,
                 answerText: "",
+                studentAnswers: this.state.selectedValues
             })
           })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
-        })
-        .catch(err => {
-            console.log(err);
+            console.log("Finished resolving");
+            this.handleNext(response);
         });
     }
 
-    handleNext = () => {
-
-        this.saveAnswer(this.state.passageIndex);
+    handleNext(answer) {
+        this.setState({
+            correct: answer.correct
+        })
+        if (answer.correct === false) {
+            console.log("Answer Incorrect", answer.correct, this.state.correct);
+            this.setState({
+                correct: "init"
+            })
+            return;
+        }
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
             this.setState({ passageIndex: this.state.passageIndex + 1 });
         } else if (this.state.passageIndex + 1 === this.state.passageCount - 1) {
@@ -126,6 +133,7 @@ class PassageComponent extends React.Component {
             selectedAnswers.push(item);
         });
         this.setState({ selectedValues: selectedAnswers });
+        console.log(selectedAnswers);
     }
 
     render() {
@@ -168,12 +176,15 @@ class PassageComponent extends React.Component {
                             </Col>
                         </Form>
                     </Card.Body>
-                    <PassageFeedback passageId={this.state.passages[this.state.passageIndex].passageId} />
+                    <PassageFeedback 
+                        passageId={this.state.passages[this.state.passageIndex].id}
+                        correct={this.state.correct}
+                    />
                 </Card>
                 <br />
                 <Button
                     variant="info"
-                    onClick={this.handleNext}
+                    onClick={() => {this.saveAnswer(this.state.passages[this.state.passageIndex].id)} }
                 >{this.state.buttonText}</Button>
             </Container>
         );

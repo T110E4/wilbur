@@ -2,14 +2,12 @@ package com.angelo.wilburspring.endpoints;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.websocket.Decoder.TextStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,6 @@ import com.angelo.wilburspring.models.Lesson;
 import com.angelo.wilburspring.models.Passage;
 
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,14 +67,68 @@ public class LessonEndpoint {
         return lesson;
     }
 
+    /**
+     * Save the answer and respond with the Answer object with filled in correctness
+     * @param answer
+     * @return
+     */
     @RequestMapping(value = "/save-answer", method = RequestMethod.POST)
-    public Answer saveAnswer(@RequestBody Answer answer) {
-        Answer newAnswer = new Answer();
-        answerRepository.save(newAnswer);
-        return newAnswer;
+    public Answer saveAnswer(
+            @RequestBody Answer answer) {
+        Passage passage = passageRepository.findById(answer.getPassageId()).orElse(null);
+        /**
+         * We compensate for React limitations by taking the array of
+         * answers selected by the student and setting the boolean appropriately
+         * for each option
+         */
+        for (String studentAnswerString : answer.getStudentAnswers() ) {
+            if (studentAnswerString.equals("answerA")) {
+                answer.setAnswerA(true);
+            } else if (studentAnswerString.equals("answerB")) {
+                answer.setAnswerB(true);
+            } else if (studentAnswerString.equals("answerC")) {
+                answer.setAnswerC(true);
+            } else if (studentAnswerString.equals("answerD")) {
+                answer.setAnswerD(true);
+            } else if (studentAnswerString.equals("answerE")) {
+                answer.setAnswerE(true);
+            }
+        }
+        //TODO: Add support for non-multiple choice
+        Double multiChoiceCorrect = 0.0;
+        if (passage.getAnswerACheckbox() == answer.getAnswerA()) {
+            multiChoiceCorrect += 1;
+            answer.setAnswerACorrect(true);
+        } else {
+
+        }
+        if (passage.getAnswerBCheckbox() == answer.getAnswerB()) {
+            multiChoiceCorrect += 1;
+            answer.setAnswerBCorrect(true);
+        } else {
+            answer.setCorrect(false);
+        }
+        if (passage.getAnswerCCheckbox() == answer.getAnswerC()) {
+            multiChoiceCorrect += 1;
+            answer.setAnswerCCorrect(true);
+        }
+        if (passage.getAnswerDCheckbox() == answer.getAnswerD()) {
+            multiChoiceCorrect += 1;
+            answer.setAnswerDCorrect(true);
+        }
+        if (passage.getAnswerECheckbox() == answer.getAnswerE()) {
+            multiChoiceCorrect += 1;
+            answer.setAnswerECorrect(true);
+        }
+        //If any answers are incorrect, mark the answer incorrect.
+        if (!answer.getAnswerACorrect() || !answer.getAnswerBCorrect() || !answer.getAnswerCCorrect()
+            || !answer.getAnswerDCorrect() || !answer.getAnswerECorrect() ) {
+                answer.setCorrect(false);
+            }
+        answerRepository.save(answer);
+        return answer;
     }
 
-    //TODO: passageRepository not finding IDs that exist
     @RequestMapping(value = "/get-passage", method = RequestMethod.GET, produces = "application/json")
     public Passage getPassage(@RequestParam String id) {
         Long longId = Long.valueOf(id);
@@ -120,29 +171,16 @@ public class LessonEndpoint {
 
     @RequestMapping(value = "/get-feedback", method = RequestMethod.GET)
     public Feedback getFeedback(@RequestParam String id) {
+        Long longId = Long.valueOf(id);
         List<Feedback> feedbackList = null;
         Feedback chosenFeedback = null;
+        Passage passage = passageRepository.findById(longId).orElse(null);
+        TextStructure passageType = passage.getTextStructure();
 
-        UUID passageId = UUID.fromString(id);
-        Session session = entityManager.unwrap(Session.class);
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Passage> criteria = builder.createQuery(Passage.class);
-        Root<Passage> root = criteria.from(Passage.class);
-        criteria.select(root).where(builder.equal(root.get("passageId"), passageId));
-        Query<Passage> query = session.createQuery(criteria);
-        List<Passage> passageList = query.getResultList();
-        logger.info(Integer.toString(passageList.size()));
-        if (passageList.size() > 0) {
-            Passage passage = passageList.get(0);
-            TextStructure passageType = passage.getTextStructure();
-            feedbackList = this.getFeedbackContent(passageType);
-        
-            //TOOO: Update to choose based on difficulty
-            Random rand = new Random();
-            chosenFeedback = feedbackList.get(rand.nextInt(feedbackList.size()));
-        } else {
-            return null;
-        }
+        feedbackList = this.getFeedbackContent(passageType);
+        //TOOO: Update to choose based on difficulty
+        Random rand = new Random();
+        chosenFeedback = feedbackList.get(rand.nextInt(feedbackList.size()));
         return chosenFeedback;
     }
     

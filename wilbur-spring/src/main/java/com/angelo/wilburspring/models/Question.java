@@ -53,6 +53,14 @@ public class Question implements Serializable {
         this.answers = answers;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
     }
