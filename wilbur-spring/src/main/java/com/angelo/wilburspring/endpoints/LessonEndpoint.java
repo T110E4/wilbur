@@ -1,15 +1,31 @@
 package com.angelo.wilburspring.endpoints;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.websocket.Decoder.TextStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.angelo.wilburspring.database.AnswerRepository;
 import com.angelo.wilburspring.database.LessonRepository;
 import com.angelo.wilburspring.database.PassageRepository;
+import com.angelo.wilburspring.lessons.TextStructure;
 import com.angelo.wilburspring.models.Answer;
 import com.angelo.wilburspring.models.Feedback;
 import com.angelo.wilburspring.models.Lesson;
 import com.angelo.wilburspring.models.Passage;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +44,11 @@ public class LessonEndpoint {
 
     @Autowired
     private AnswerRepository answerRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+    
+    private static final Logger logger=LoggerFactory.getLogger(LessonEndpoint.class);
 
     @RequestMapping(value="/add-lesson", method=RequestMethod.POST)
     public Lesson addLesson(@RequestBody Lesson lesson) {
@@ -80,17 +101,49 @@ public class LessonEndpoint {
         }
     }
 
+    public List<Feedback> getFeedbackContent(TextStructure feedbackType){
+        Session session = entityManager.unwrap(Session.class);
+
+        // Create CriteriaBuilder
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        // Create CriteriaQuery
+        CriteriaQuery<Feedback> criteria = builder.createQuery(Feedback.class);
+        //criteria.from(Feedback.class);
+        Root<Feedback> root = criteria.from(Feedback.class);
+        criteria.select(root).where(builder.equal(root.get("textStructure"), feedbackType.ordinal() ));
+        Query<Feedback> query = session.createQuery(criteria);
+        List<Feedback> feedbackList = query.getResultList();
+        logger.info(String.format("Found %d feedback options", feedbackList.size()));
+        return feedbackList; 
+    }
+
     @RequestMapping(value = "/get-feedback", method = RequestMethod.GET)
-    public Feedback getFeedback(@RequestParam String passageId) {
-        Long longId = Long.valueOf(passageId);
-        Feedback feedback = null;
-        Passage passage = passageRepository.findById(longId).orElse(null);
-        if (passage != null) {
-            feedback = new Feedback();
+    public Feedback getFeedback(@RequestParam String id) {
+        List<Feedback> feedbackList = null;
+        Feedback chosenFeedback = null;
+
+        UUID passageId = UUID.fromString(id);
+        Session session = entityManager.unwrap(Session.class);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Passage> criteria = builder.createQuery(Passage.class);
+        Root<Passage> root = criteria.from(Passage.class);
+        criteria.select(root).where(builder.equal(root.get("passageId"), passageId));
+        Query<Passage> query = session.createQuery(criteria);
+        List<Passage> passageList = query.getResultList();
+        logger.info(Integer.toString(passageList.size()));
+        if (passageList.size() > 0) {
+            Passage passage = passageList.get(0);
+            TextStructure passageType = passage.getTextStructure();
+            feedbackList = this.getFeedbackContent(passageType);
+        
+            //TOOO: Update to choose based on difficulty
+            Random rand = new Random();
+            chosenFeedback = feedbackList.get(rand.nextInt(feedbackList.size()));
         } else {
             return null;
         }
-        return feedback;
+        return chosenFeedback;
     }
     
 }

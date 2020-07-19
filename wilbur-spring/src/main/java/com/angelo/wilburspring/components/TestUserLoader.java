@@ -2,10 +2,6 @@ package com.angelo.wilburspring.components;
 
 import com.angelo.wilburspring.database.StudentRepository;
 import com.angelo.wilburspring.database.TeacherRepository;
-import com.angelo.wilburspring.lessons.Difficulty;
-import com.angelo.wilburspring.lessons.TextStructure;
-import com.angelo.wilburspring.models.Lesson;
-import com.angelo.wilburspring.models.Passage;
 import com.angelo.wilburspring.models.Student;
 import com.angelo.wilburspring.models.Teacher;
 

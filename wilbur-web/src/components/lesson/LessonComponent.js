@@ -47,7 +47,7 @@ class LessonComponent extends React.Component {
         }
         return (
             <Container>
-                <Card bg="primary" text="light">
+                <Card bg="light" text="dark">
                     <Card.Title>{this.state.lessonName}</Card.Title>
                     <Card.Text>{this.state.lessonSummary}</Card.Text>
                     <Card.Text>{this.state.lessonId}</Card.Text>

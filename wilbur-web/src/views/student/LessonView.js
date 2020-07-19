@@ -24,7 +24,7 @@ class LessonView extends React.Component {
     handleCompleted = (completed) => {
         console.log("Lesson has been completed");
         this.setState({
-            completed: true
+            completed: completed
         })
     }
 
@@ -35,7 +35,6 @@ class LessonView extends React.Component {
                 <br />
                 <PassageComponent lessonId={this.props.match.params.id} onCompleted={this.handleCompleted} />
                 <LessonCompletion completed={this.state.completed} />
-
             </div>
         );
     }

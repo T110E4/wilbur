@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import PassageFeedback from './PassageFeedback';
 
 import './PassageComponent.css';
 
@@ -99,13 +100,7 @@ class PassageComponent extends React.Component {
 
     handleNext = () => {
 
-        console.log(this.state.passageIndex);
-        console.log(this.state.passageCount);
         this.saveAnswer(this.state.passageIndex);
-
-        //TODO: Check the answers and provide feedback
-        //this.checkAnswer(this.state.passages[this.state.passageIndex]);
-
         if (this.state.passageIndex + 1 < this.state.passageCount - 1) {
             this.setState({ passageIndex: this.state.passageIndex + 1 });
         } else if (this.state.passageIndex + 1 === this.state.passageCount - 1) {
@@ -123,8 +118,6 @@ class PassageComponent extends React.Component {
         }
         var selectedAnswers = []
         this.setState({ selectedValues: selectedAnswers });
-        console.log(this.state.passageIndex);
-        console.log(this.state.passageCount);
     }
 
     handleChange = (val) => {
@@ -175,10 +168,11 @@ class PassageComponent extends React.Component {
                             </Col>
                         </Form>
                     </Card.Body>
+                    <PassageFeedback passageId={this.state.passages[this.state.passageIndex].passageId} />
                 </Card>
                 <br />
                 <Button
-                    variant="primary"
+                    variant="info"
                     onClick={this.handleNext}
                 >{this.state.buttonText}</Button>
             </Container>
