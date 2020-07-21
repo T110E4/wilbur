@@ -43,9 +43,6 @@ class TeacherLessons extends React.Component {
                         <p>
                             {lesson.lessonSummary}
                         </p>
-                        <p>
-                            <Button variant="primary">Edit Lesson</Button>
-                        </p>
                     </Jumbotron>
                 ))}
             </div>
