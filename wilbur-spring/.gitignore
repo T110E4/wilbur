@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 bin/
+src/main/resources/public
 
 ### STS ###
 .apt_generated

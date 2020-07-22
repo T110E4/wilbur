@@ -2,10 +2,12 @@ plugins {
 	id 'org.springframework.boot' version '2.3.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id "com.github.node-gradle.node" version "2.2.4"
+	id 'application'
 }
 
 group = 'com.angelo'
-version = '0.0.1-SNAPSHOT'
+version = '0.1'
 sourceCompatibility = '11'
 
 repositories {
@@ -18,6 +20,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.session:spring-session-core'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtime('com.h2database:h2') //For test deployment
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -26,6 +30,43 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
+
+application {
+    mainClass = 'com.angelo.wilburspring.WilburSpringApplication'
+}
+
+// Read more about how to configure the plugin from
+// https://github.com/srs/gradle-node-plugin/blob/master/docs/node.md
+node {
+  download = true
+
+  // Set the work directory for unpacking node
+  workDir = file("${project.projectDir}/../wilbur-web/nodejs")
+
+  // Set the work directory for NPM
+  npmWorkDir = file("${project.projectDir}/../wilbur-web/npm")
+}
+
+task appNpmInstall(type: NpmTask) {
+  description = "Installs dependencies from package.json"
+  workingDir = file("${project.projectDir}/../wilbur-web")
+  args = ["install"]
+}
+
+task appNpmBuild(type: NpmTask) {
+  description = "Builds production version of the webapp"
+  workingDir = file("${project.projectDir}/../wilbur-web")
+  args = ["run", "build"]
+}
+
+task copyWebApp(type: Copy) {
+  from "${project.projectDir}/../wilbur-web/build/"
+  into "${project.projectDir}/src/main/resources/public/."
+}
+
+appNpmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn appNpmBuild
+compileJava.dependsOn copyWebApp
 
 test {
 	useJUnitPlatform()

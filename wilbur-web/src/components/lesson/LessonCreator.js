@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 import './LessonCreator.css';
 
@@ -12,6 +13,8 @@ class LessonCreator extends React.Component {
   constructor(properties) {
     super(properties);
     this.state = {
+      showSaved: false,
+
       lessonName: '',
       lessonSummary: '',
       lessonDifficulty: 'MEDIUM',
@@ -54,6 +57,9 @@ class LessonCreator extends React.Component {
       .then(response => response.json())
       .then(response => {
         console.log(response);
+        this.setState({
+          showSaved: true
+        })
       })
       .catch(err => {
         console.log(err);
@@ -63,6 +69,7 @@ class LessonCreator extends React.Component {
   handleSubmit(event) {
     this.saveLesson();
     event.preventDefault();
+
   }
 
   handleChange(event) {
@@ -258,7 +265,9 @@ class LessonCreator extends React.Component {
             </Form.Group>
             </Form.Group>
           ))}
-
+          <Alert show={this.state.showSaved} variant="success">
+            Lesson Saved!
+          </Alert>
           <Row>
             <Col>
               <Button onClick={this.handleAddPassage} variant="primary">Add</Button>
