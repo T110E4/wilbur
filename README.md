@@ -31,12 +31,10 @@ Run the Wilbur executable
 
 By default, the database is set to clear at startup and is using the H2 in-memory database. To switch to PostGres, modify the application properties and include the following:
 
-`
-spring.datasource.url=jdbc:postgresql://yourdatabasehost:5432/wilbur
-spring.datasource.username=wilbur
-spring.datasource.password=yourdatabasepasswordhere
+*spring.datasource.url=jdbc:postgresql://yourdatabasehost:5432/wilbur*
+*spring.datasource.username=wilbur*
+*spring.datasource.password=yourdatabasepasswordhere*
 
-spring.jpa.database=POSTGRESQL
+*spring.jpa.database=POSTGRESQL*
 
-spring.jpa.hibernate.ddl-auto=create
-`
+*spring.jpa.hibernate.ddl-auto=create*
